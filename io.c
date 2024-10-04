@@ -4,13 +4,16 @@
 #include "io.h"
 
 void gotoxy(POSITION pos) {
-	COORD coord = { pos.column, pos.row }; // 행, 열 반대로 전달
+	COORD coord = { pos.column, pos.row }; // 행, 열 반대로 전달 /어쨰서??
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
+//SetConsoleCursorPosition은 두번째 인자로 받은 좌표로 이동시킨다
 
 void set_color(int color) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
+//SetConsoleTextAttribute함수는 콘솔화면의 텍스트나 배경색상을 설정한다
+//첫번째 인자로 콘솔핸들을 받고, 두번째 인자로 색상 속성을 받는다.
 
 void printc(POSITION pos, char ch, int color) {
 	if (color >= 0) {

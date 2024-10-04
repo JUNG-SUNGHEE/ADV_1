@@ -10,7 +10,7 @@
 /* ================= system parameters =================== */
 #define TICK 10		// time unit(ms)
 
-#define N_LAYER 2
+#define N_LAYER 2//이건 지형과 오브젝트를 분리해서 처리하기위해 
 #define MAP_WIDTH	60
 #define MAP_HEIGHT	18
 
@@ -47,10 +47,10 @@ typedef enum {
 // 편의성을 위한 함수들. KEY, POSITION, DIRECTION 구조체들을 유기적으로 변환
 
 // 편의성 함수
-inline POSITION padd(POSITION p1, POSITION p2) {
+inline POSITION padd(POSITION p1, POSITION p2) {//POSITION형 함수니까 2개의 int를 반환할듯
 	POSITION p = { p1.row + p2.row, p1.column + p2.column };
 	return p;
-}
+}//inline은 그냥 별의미 없다고 생각하고 뒤에 함수에 집중하자
 
 // p1 - p2
 inline POSITION psub(POSITION p1, POSITION p2) {
@@ -89,6 +89,7 @@ typedef struct {
 	char repr;			// 화면에 표시할 문자(representation)
 	int move_period;	// '몇 ms마다 한 칸 움직이는지'를 뜻함
 	int next_move_time;	// 다음에 움직일 시간
+	int speed;
 } OBJECT_SAMPLE;
 
 #endif

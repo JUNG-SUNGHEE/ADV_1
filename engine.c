@@ -40,8 +40,8 @@ OBJECT_SAMPLE obj = {
 int main(void) {
 	srand((unsigned int)time(NULL));
 
-	init();
-	intro();
+	init(); // #로 틀만들기, map[-1]에 -1넣기, map배열에 'o'넣기
+	intro();// ㄹㅇ 그냥 인트로(정)
 	display(resource, map, cursor);
 
 	while (1) {
@@ -76,7 +76,7 @@ int main(void) {
 void intro(void) {
 	printf("DUNE 1.5\n");		
 	Sleep(2000);
-	system("cls");
+	system("cls"); // 화면 지우기(정)
 }
 
 void outro(void) {
