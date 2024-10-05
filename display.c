@@ -87,10 +87,12 @@ void display_map(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH]) {
 void display_cursor(CURSOR cursor){
 	POSITION prev = cursor.previous;
 	POSITION curr = cursor.current;
+	// CURSOR은 POSITION형 previous(이전위치)와 current(현위치)로 이루어진 구조체이고
+	//POSITION형은 int형 row(행 왼-오), column(열 위-아래)으로 이루어진 구조체
 
 	char ch = frontbuf[prev.row][prev.column];
-	printc(padd(map_pos, prev), ch, COLOR_DEFAULT);
+	printc(padd(map_pos, prev), ch, COLOR_DEFAULT); // 이전위치는 원래 상태로 돌리고
 
 	ch = frontbuf[curr.row][curr.column];
-	printc(padd(map_pos, curr), ch, COLOR_CURSOR);
+	printc(padd(map_pos, curr), ch, COLOR_CURSOR); // 다음위치는 커서색으로 바꾸고
 }

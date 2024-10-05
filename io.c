@@ -24,11 +24,11 @@ void printc(POSITION pos, char ch, int color) {
 }
 
 KEY get_key(void) {
-	if (!_kbhit()) {  // 입력된 키가 있는지 확인
+	if (!_kbhit()) {  // _kvhit는 입력된 키가 있는지 확인하는 함수
 		return k_none;
 	}
 
-	int byte = _getch();    // 입력된 키를 전달 받기
+	int byte = _getch();    // _getch는 입력된 키를 전달 받는 함수(엔터키가 입력될때 까지 기다리지 않음)
 	switch (byte) {
 	case 'q': return k_quit;  // 'q'를 누르면 종료
 	case 224:
