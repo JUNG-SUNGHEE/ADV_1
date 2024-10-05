@@ -14,6 +14,21 @@
 #define MAP_WIDTH	60
 #define MAP_HEIGHT	18
 
+//내 코드
+#define ST_LAYER 2 // 아마 틀과 텍스트 분리?
+#define STATUS_WIDTH 50
+#define STATUS_HEIGHT 18
+
+#define SY_LAYER 2
+#define SYSTEM_WIDTH 60
+#define SYSTEM_HEIGHT 7
+
+#define CO_LAYER 2
+#define COMMAND_WIDTH 50
+#define COMMAND_HEIGHT 7
+
+//내 코드
+
 
 /* ================= 위치와 방향 =================== */
 // 맵에서 위치를 나타내는 구조체
@@ -38,7 +53,8 @@ typedef enum {
 
 
 // DIRECTION은 KEY의 부분집합이지만, 의미를 명확하게 하기 위해서 다른 타입으로 정의
-typedef enum {
+typedef enum {//enum은 열거형을 사용하는데 사용된다 순서대로 첫번째 부터 0을 할당해 이후 1,2,3,4 할당
+	//그럼 
 	d_stay = 0, d_up, d_right, d_left, d_down
 } DIRECTION;
 
@@ -67,12 +83,17 @@ inline POSITION psub(POSITION p1, POSITION p2) {
 // DIRECTION을 POSITION 벡터로 변환하는 함수
 inline POSITION dtop(DIRECTION d) {
 	static POSITION direction_vector[] = { {0, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 0} };
-	return direction_vector[d];
+	//d_stay == {0, 0} / d_up == {-1, 0} / d_right == {0, 1} / d_left == {0, -1} / d_down == {1, 0}
+	//함수내에서 static으로 선언된 변수는 함수가 호출될 때마다 초기화되지 않고, 프로그램이 종료될 때까지 그 값을 유지한다 
+	return direction_vector[d];//이 함수가 어느 방향으로 얼마나 이동시키는지를 관장하는듯
 }
 
 // p를 d 방향으로 이동시킨 POSITION
-#define pmove(p, d)		(padd((p), dtop(d)))
-
+#define pmove(p, d)		(padd((p), dtop(d)))//padd함수는 2개의 POSITION형 변수를 받아 X는 X끼리 Y는 Y끼리 더해서 반환
+                            //여기서 p는현재위치 d는 다음에 이동할 방향이 들어있음 dtop함수는 방향과 크기정리 되어있고 
+							// 각 방향에 맞는 값을 반환해줌
+							// 오호 그럼 padd함수로 이 둘을 더하면 당연히 다음 위치의 좌표가 나오네
+                
 /* ================= game data =================== */
 typedef struct {
 	int spice;		// 현재 보유한 스파이스

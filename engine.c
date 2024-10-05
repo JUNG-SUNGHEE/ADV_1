@@ -20,6 +20,7 @@ CURSOR cursor = { { 1, 1 }, {1, 1} };
 
 /* ================= game data =================== */
 char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH] = { 0 };
+char status_map[ST_LAYER][STATUS_HEIGHT][STATUS_WIDTH] = { 0 };//내 코드
 
 RESOURCE resource = { 
 	.spice = 0,
@@ -69,7 +70,7 @@ int main(void) {
 		}
 
 		// 샘플 오브젝트 동작
-		sample_obj_move();// 아마 여기가 오브젝트 관련인듯
+		sample_obj_move();// 아마 여기가 오브젝트 관련인듯// 말그대로 샘플이고 건물, 이딴건 새로만들어줘야할듯
 
 		// 화면 출력
 		display(resource, map, cursor);
@@ -104,6 +105,50 @@ void init(void) {
 			map[0][i][j] = ' ';
 		}
 	}
+	//내 코드 // 위에 코드보면 좌표에 #은 넣어도 출력은 안함 아마 좌표에 들어있는 값을 출력하는 함수가 분명 존재할듯
+	//STATUS 틀 좌표에 # 대입
+
+	for (int j = MAP_WIDTH + 2; j < STATUS_WIDTH + MAP_WIDTH; j++) {
+		status_map[0][j] = '#';
+		status_map[MAP_HEIGHT - 1][j] = '#';
+	}
+/*
+	for (int i = 1; i < MAP_HEIGHT - 1; i++) {
+		map[0][i][0] = '#';
+		map[0][i][MAP_WIDTH - 1] = '#';
+		for (int j = 1; j < MAP_WIDTH - 1; j++) {
+			map[0][i][j] = ' ';
+		}
+	}
+
+	// SYSTEM 틀 좌표에 # 대입
+	for (int j = 0; j < MAP_WIDTH; j++) {
+		map[0][0][j] = '#';
+		map[0][MAP_HEIGHT - 1][j] = '#';
+	}
+
+	for (int i = 1; i < MAP_HEIGHT - 1; i++) {
+		map[0][i][0] = '#';
+		map[0][i][MAP_WIDTH - 1] = '#';
+		for (int j = 1; j < MAP_WIDTH - 1; j++) {
+			map[0][i][j] = ' ';
+		}
+	}
+
+	// COMMAND 틀 좌표에 # 대입
+	for (int j = 0; j < MAP_WIDTH; j++) {
+		map[0][0][j] = '#';
+		map[0][MAP_HEIGHT - 1][j] = '#';
+	}
+
+	for (int i = 1; i < MAP_HEIGHT - 1; i++) {
+		map[0][i][0] = '#';
+		map[0][i][MAP_WIDTH - 1] = '#';
+		for (int j = 1; j < MAP_WIDTH - 1; j++) {
+			map[0][i][j] = ' ';
+		}
+	}*/
+	//내 코드
 
 	// layer 1(map[1])은 비워 두기(-1로 채움)
 	for (int i = 0; i < MAP_HEIGHT; i++) {
@@ -157,10 +202,11 @@ POSITION sample_obj_next_position(void) {
 	if (abs(diff.row) >= abs(diff.column)) {// 목적지 - 현재위치 델타 x와 델타 y에서 델타x와 델타y를 비교해서 더 먼 쪽 축으로 이동 아하 이게 그거부분이다 오른 아래부분
 		// 여기서 만약 목적지가 58,16이면 일단 x가 더 크니 x축 방향으로 이동한다 그럼 점점 x는 16에 가까워지겠지 그러다 16? 15? 되면 이번엔 y가 더크니까 y로이동 
 		//y방향으로 이동하다가 이번엔 또 x가 더 크니까 이번엔 x 축쪽으로 이동할거임 이게 오른 아래 반복 구현임
-		dir = (diff.row >= 0) ? d_down : d_up;
+		dir = (diff.row >= 0) ? d_down : d_up;// down =4 , up =1
 	}
 	else {
-		dir = (diff.column >= 0) ? d_right : d_left;
+		dir = (diff.column >= 0) ? d_right : d_left; // right = 2, left = 3
+		//이거 문법 조건(diff.column >= 0)이 참이라면 dir에 d_right 대입 조건이 거짓이라면 dir에 d_left 대입
 	}
 	
 	// validation check
@@ -170,7 +216,8 @@ POSITION sample_obj_next_position(void) {
 	if (1 <= next_pos.row && next_pos.row <= MAP_HEIGHT - 2 && \
 		1 <= next_pos.column && next_pos.column <= MAP_WIDTH - 2 && \
 		map[1][next_pos.row][next_pos.column] < 0) {
-		
+		//map[1]에는 오브첵트(건물, 유닛 등)이 저장되어 있음
+		//
 		return next_pos;
 	}
 	else {

@@ -17,20 +17,39 @@ const POSITION map_pos = { 1, 0 };
 char backbuf[MAP_HEIGHT][MAP_WIDTH] = { 0 }; //다음에 화면에 표시될 데이터를 저장하는 버퍼입니다. 이 버퍼에 데이터를 먼저 그린 후, frontbuf와 교체하여 화면 깜빡임을 줄이고 부드러운 화면 전환을 구현합니다.
 char frontbuf[MAP_HEIGHT][MAP_WIDTH] = { 0 }; //현재 화면에 표시되고 있는 데이터를 저장하는 버퍼입니다. 즉, 사용자에게 보여지는 화면의 내용을 담고 있습니다.
 
+//내 코드 // 어차피 출력할때 goto로 이동하니 딱 필요한 만큼만 배열 선언하면될듯 각각의 폭 길이에 맞게
+char backbuf_status[STATUS_HEIGHT][STATUS_WIDTH] = { 0 };
+char frontbuf_status[STATUS_HEIGHT][STATUS_WIDTH] = { 0 };
+
+char backbuf_system[SYSTEM_HEIGHT][SYSTEM_WIDTH] = { 0 };
+char frontbuf_system[SYSTEM_HEIGHT][SYSTEM_WIDTH] = { 0 };
+
+char backbuf_command[COMMAND_HEIGHT][COMMAND_WIDTH] = { 0 };
+char frontbuf_command[COMMAND_HEIGHT][COMMAND_WIDTH] = { 0 };
+
+//내 코드
+
 void project(char src[N_LAYER][MAP_HEIGHT][MAP_WIDTH], char dest[MAP_HEIGHT][MAP_WIDTH]);
 void display_resource(RESOURCE resource);
 void display_map(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH]);
+//내 코드
+void display_status(char status[ST_LAYER][STATUS_HEIGHT][STATUS_WIDTH]);
+//내 코드
 void display_cursor(CURSOR cursor);
 
 
 void display(// 화면에 각각의 요소를 보여주는 함수들을 모아놓은 함수
 	RESOURCE resource,//RESOURCE는 int형 spice, spice_max, population, popalation_max로 이루어진 구조체
-	char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], 
+	char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH],
+	char status[ST_LAYER][STATUS_HEIGHT][STATUS_WIDTH],
 	CURSOR cursor)  // CURSOR은 POSITION형 previous(이전위치)와 current(현위치)로 이루어진 구조체이고
 	//POSITION형은 int형 row(행 왼-오), column(열 위-아래)으로 이루어진 구조체 
 {
 	display_resource(resource); // 말 그대로 resource 구조체 내용을 화면에 표시해주는 함수
-	display_map(map); // 
+	display_map(map);
+	//내 코드
+	display_status(status);
+	//내 코드
 	display_cursor(cursor);
 	// display_system_message()
 	// display_object_info()
@@ -58,10 +77,11 @@ void project(char src[N_LAYER][MAP_HEIGHT][MAP_WIDTH], char dest[MAP_HEIGHT][MAP
 			}
 		}
 	}
-}//뭐하는 넘인지 이해 불가 0과 같거나 큰 
+}
 
 void display_map(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH]) {
-	project(map, backbuf);
+	project(map, backbuf);// back, front는 전부[맵폭][맵높이]가 0으로 초기화 되어있는상태다 처음에 그러니 틀을 넣어주는#도 변화로 간주하고 하나하나 출력하는거아닐까? 여기서?
+	//스테이터스 버퍼, 커멘드 버퍼, 시스템 버퍼 만들어줘야할듯
 	//현재 맵 map과 다음에 와야할 맵 backbuf을 project에 인자로 준다 
 	//project는 map[][][]에서 0보다 크거나 같은 인덱스를 발견하면 그것들에
 	//다음에 와야할 맵 backbuf(같은 인덱스의)에 map의 값을 넣어준다 
@@ -82,6 +102,22 @@ void display_map(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH]) {
 		}
 	}
 }
+
+//내 코드
+void display_status(char status[ST_LAYER][STATUS_HEIGHT][STATUS_WIDTH]) {
+	project(status, backbuf_status);
+	for (int i = 0; i < MAP_HEIGHT; i++) {
+		for (int j = 0; j < MAP_WIDTH; j++) {
+			if (frontbuf[i][j] != backbuf[i][j]) { 
+				POSITION pos = { i, j }; 
+				printc(padd(map_pos, pos), backbuf[i][j], COLOR_DEFAULT);
+			}
+			frontbuf[i][j] = backbuf[i][j];
+		}
+	}
+}
+//내 코드
+
 
 // frontbuf[][]에서 커서 위치의 문자를 색만 바꿔서 그대로 다시 출력
 void display_cursor(CURSOR cursor){
