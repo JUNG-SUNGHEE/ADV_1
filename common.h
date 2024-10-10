@@ -11,8 +11,19 @@
 #define TICK 10		// time unit(ms)
 
 #define N_LAYER 2
-#define MAP_WIDTH	60
-#define MAP_HEIGHT	18
+#define MAP_WIDTH	101
+#define MAP_HEIGHT	26
+
+#define GAME_WIDTH  60
+#define GAME_HEIGHT 18
+
+#define SYSTEM_HEIGHT 7
+
+#define COMMAND_HEIGHT 7
+#define COMMAND_WIDTH 40
+
+#define STATUS_WIDTH 40
+
 
 
 /* ================= 위치와 방향 =================== */

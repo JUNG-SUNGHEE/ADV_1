@@ -30,7 +30,7 @@ RESOURCE resource = {
 
 OBJECT_SAMPLE obj = {
 	.pos = {1, 1},
-	.dest = {MAP_HEIGHT - 2, MAP_WIDTH - 2},
+	.dest = {GAME_HEIGHT - 2, GAME_WIDTH - 2},
 	.repr = 'o',
 	.speed = 300,
 	.next_move_time = 300
@@ -86,16 +86,43 @@ void outro(void) {
 
 void init(void) {
 	// layer 0(map[0])에 지형 생성
-	for (int j = 0; j < MAP_WIDTH; j++) {
+	for (int j = 0; j < GAME_WIDTH; j++) {
 		map[0][0][j] = '#';
-		map[0][MAP_HEIGHT - 1][j] = '#';
+		map[0][GAME_HEIGHT - 1][j] = '#';
+		map[0][GAME_HEIGHT + 1][j] = '#';
+		map[0][GAME_HEIGHT + SYSTEM_HEIGHT][j] = '#';
 	}
 
-	for (int i = 1; i < MAP_HEIGHT - 1; i++) {
+	for (int i = 1; i < GAME_HEIGHT - 1; i++) {
 		map[0][i][0] = '#';
-		map[0][i][MAP_WIDTH - 1] = '#';
-		for (int j = 1; j < MAP_WIDTH - 1; j++) {
+		map[0][i][GAME_WIDTH - 1] = '#';
+		map[0][i][GAME_WIDTH + 1] = '#';
+		map[0][i][GAME_WIDTH + STATUS_WIDTH ] = '#';
+		for (int j = 1; j < GAME_WIDTH - 1; j++) {
 			map[0][i][j] = ' ';
+		}
+		for (int j = 1; j < COMMAND_WIDTH - 1; j++) {
+			map[0][i][j + GAME_WIDTH + 1] = ' ';
+		}
+	}
+
+	for (int j = 0; j < STATUS_WIDTH; j++) {
+		map[0][0][GAME_WIDTH + 1 + j] = '#';
+		map[0][GAME_HEIGHT - 1][GAME_WIDTH + 1 + j] = '#';
+		map[0][GAME_HEIGHT + 1][GAME_WIDTH + 1 + j] = '#';
+		map[0][GAME_HEIGHT + COMMAND_HEIGHT][GAME_WIDTH + 1 + j] = '#';
+	}
+
+	for (int i = 1; i < COMMAND_HEIGHT - 1; i++) {
+		map[0][GAME_HEIGHT + 1 + i][0] = '#';
+		map[0][GAME_HEIGHT + 1 + i][GAME_WIDTH -1] = '#';
+		map[0][GAME_HEIGHT + 1 + i][GAME_WIDTH + 1] = '#';
+		map[0][GAME_HEIGHT + 1 + i][GAME_WIDTH + COMMAND_WIDTH] = '#';
+		for (int j = 1; j < COMMAND_WIDTH - 1; j++) {
+			map[0][GAME_HEIGHT + 1 + i][GAME_WIDTH + 1 + j] = ' ';
+		}
+		for (int j = 1; j < GAME_WIDTH - 1; j++) {
+			map[0][GAME_HEIGHT + 1 + i][j] = ' ';
 		}
 	}
 
@@ -116,8 +143,8 @@ void cursor_move(DIRECTION dir) {
 	POSITION new_pos = pmove(curr, dir);
 
 	// validation check
-	if (1 <= new_pos.row && new_pos.row <= MAP_HEIGHT - 2 && \
-		1 <= new_pos.column && new_pos.column <= MAP_WIDTH - 2) {
+	if (1 <= new_pos.row && new_pos.row <= GAME_HEIGHT - 2 && \
+		1 <= new_pos.column && new_pos.column <= GAME_WIDTH - 2) {
 
 		cursor.previous = cursor.current;
 		cursor.current = new_pos;
@@ -134,7 +161,7 @@ POSITION sample_obj_next_position(void) {
 	if (diff.row == 0 && diff.column == 0) {
 		if (obj.dest.row == 1 && obj.dest.column == 1) {
 			// topleft --> bottomright로 목적지 설정
-			POSITION new_dest = { MAP_HEIGHT - 2, MAP_WIDTH - 2 };
+			POSITION new_dest = { GAME_HEIGHT - 2, GAME_WIDTH - 2 };
 			obj.dest = new_dest;
 		}
 		else {
@@ -157,8 +184,8 @@ POSITION sample_obj_next_position(void) {
 	// next_pos가 맵을 벗어나지 않고, (지금은 없지만)장애물에 부딪히지 않으면 다음 위치로 이동
 	// 지금은 충돌 시 아무것도 안 하는데, 나중에는 장애물을 피해가거나 적과 전투를 하거나... 등등
 	POSITION next_pos = pmove(obj.pos, dir);
-	if (1 <= next_pos.row && next_pos.row <= MAP_HEIGHT - 2 && \
-		1 <= next_pos.column && next_pos.column <= MAP_WIDTH - 2 && \
+	if (1 <= next_pos.row && next_pos.row <= GAME_HEIGHT - 2 && \
+		1 <= next_pos.column && next_pos.column <= GAME_WIDTH - 2 && \
 		map[1][next_pos.row][next_pos.column] < 0) {
 
 		return next_pos;
