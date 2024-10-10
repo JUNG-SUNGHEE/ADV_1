@@ -9,10 +9,14 @@ void init(void);
 void intro(void);
 void outro(void);
 void cursor_move(DIRECTION dir);
+int fast_move(DIRECTION dir, int sys_clock);
 void sample_obj_move(void);
 POSITION sample_obj_next_position(void);
+/////////////////////////
+int last_clock = 0;
+DIRECTION last_dir = 0;
 
-
+///////////////
 /* ================= control =================== */
 int sys_clock = 0;		// system-wide clock(ms)
 CURSOR cursor = { { 1, 1 }, {1, 1} };
@@ -136,11 +140,29 @@ void init(void) {
 	// object sample
 	map[1][obj.pos.row][obj.pos.column] = 'o';
 }
-
+int fast_move(DIRECTION dir, int sys_clock) {
+	int TorF = 0;
+	if (sys_clock - last_clock < 200 && last_clock + 10 != sys_clock) {//last_clock + 10 != sys_clock 요거 작동안함 용도는 연속으로 같은키들어오면 그건 한칸씩이동 
+		if (last_dir == dir ) {
+			TorF = 1;
+		}
+	}
+	last_clock = sys_clock;
+	last_dir = dir;
+	return TorF;
+}
 // (가능하다면) 지정한 방향으로 커서 이동
 void cursor_move(DIRECTION dir) {
 	POSITION curr = cursor.current;
 	POSITION new_pos = pmove(curr, dir);
+	if (dir != 0) {
+			if (fast_move(dir, sys_clock)) {
+				for (int i = 0; i < 4; i++) {
+					new_pos = pmove(new_pos, dir);
+				}
+		}
+	}
+	//여기에서 쇼부를 봐야한다 newpos 값을 변경해서 구현하자 여기서 해야 오류가 안날듯
 
 	// validation check
 	if (1 <= new_pos.row && new_pos.row <= GAME_HEIGHT - 2 && \

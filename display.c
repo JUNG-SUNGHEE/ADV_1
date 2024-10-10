@@ -10,6 +10,7 @@
 
 // 출력할 내용들의 좌상단(topleft) 좌표
 const POSITION resource_pos = { 0, 0 };
+
 const POSITION map_pos = { 1, 0 };
 
 
