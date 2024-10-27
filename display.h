@@ -15,6 +15,16 @@
 #define COLOR_CURSOR	112
 #define COLOR_RESOURCE  112
 
+#define BLUE_TX  1
+#define RED_TX 4
+#define Y_TX  6
+
+#define COLOR_BLUE  22
+#define COLOR_RED  64
+#define COLOR_PLATE 128
+#define COLOR_SPICE 80
+#define COLOR_ROCK  176
+
 // 지금은 자원, 맵, 커서만 표시
 // 앞으로 화면에 표시할 내용들 여기에 추가하기
 void display(
@@ -22,5 +32,12 @@ void display(
 	char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH],
 	CURSOR cursor
 );
+POSITION select_cursor;
+int esc_switch;
+
+
+
+
+
 
 #endif

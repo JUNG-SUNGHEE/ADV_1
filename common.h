@@ -43,7 +43,7 @@ typedef struct {
 typedef enum {
 	// k_none: 입력된 키가 없음. d_stay(안 움직이는 경우)에 대응
 	k_none = 0, k_up, k_right, k_left, k_down,
-	k_quit,
+	k_quit, k_space,k_esc, k_make_h, k_show_unit,
 	k_undef, // 정의되지 않은 키 입력	
 } KEY;
 
@@ -96,11 +96,39 @@ typedef struct {
 // 대강 만들어 봤음. 기능 추가하면서 각자 수정할 것
 typedef struct {
 	POSITION pos;		// 현재 위치(position)
-	POSITION dest;		// 목적지(destination)
+	POSITION dest;// 목적지(destination)
+	POSITION src;
 	char repr;			// 화면에 표시할 문자(representation)
 	int move_period;	// '몇 ms마다 한 칸 움직이는지'를 뜻함
 	int next_move_time;	// 다음에 움직일 시간
 	int speed;
+	
+	int color;
+	int cost;
+	int population;
+	int str;
+	int hp;
+	int vision;
 } OBJECT_SAMPLE;
+
+typedef struct node
+{
+	POSITION pos;		// 현재 위치(position)
+	POSITION dest;		// 목적지(destination)
+	POSITION src;
+	char repr;			// 화면에 표시할 문자(representation)
+	int move_period;	// '몇 ms마다 한 칸 움직이는지'를 뜻함
+	int next_move_time;	// 다음에 움직일 시간
+	int speed;
+
+	int color;
+	int cost;
+	int population;
+	int str;
+	int hp;
+	int vision;
+	struct node* next;
+}node;
+
 
 #endif
