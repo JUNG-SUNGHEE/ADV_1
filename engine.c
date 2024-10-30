@@ -10,6 +10,8 @@ int cnt = 0;//유닛 넘버링 용
 node a;//그 아무의미 없는 리턴용
 node* select_unit_address = &a;
 
+
+
 int w_cnt = 0; //그냥 검사용
 POSITION A = { 0, 60 };// 그냥 검사용
 
@@ -17,6 +19,7 @@ POSITION A = { 0, 60 };// 그냥 검사용
 extern node* head;
 void insertfrontnode(OBJECT_SAMPLE);
 void insertfrontnode_pre(OBJECT_SAMPLE, POSITION, int);
+void poop(int, int);
 
 double distance(POSITION, POSITION);
 node* who_is_the_closest(POSITION);
@@ -124,7 +127,7 @@ OBJECT_SAMPLE W = {
 	.dest = {0},
 	.src = {0},
 	.repr = 'W',
-	.speed = 300,
+	.speed = 900,
 	.next_move_time = 300,
 	.str = 9999,
 	.hp = -1,
@@ -294,15 +297,16 @@ int main(void) {
 
 		// 샘플 오브젝트 동작
 		sample_obj_move();
-		//if (select_unit_address->allive_cmd[0] == 1) {//이거하면 아예 실행 자체가 안됨
-			total_object_move();
-		//}
+		total_object_move();
+		
+		
 		// 화면 출력
 		display(resource, map, cursor);
 		Sleep(TICK);
 		sys_clock += 10;
 	}
 }
+
 
 /* ================= subfunctions =================== */
 void intro(void) {
@@ -408,7 +412,6 @@ void init(void) {
 
 	// object sample
 	map[1][obj.pos.row][obj.pos.column] = 'o';
-	//map[1][H.pos.row][H.pos.column] = '%';
 
 
 	// layer 0(map[0])에 건물넣기 일단 아스키 코드로
@@ -432,6 +435,9 @@ void init(void) {
 	POSITION pre_unit_pos_W = { 5, 15 };
 	POSITION pre_unit_pos_W_2 = { 10, 38 };
 
+	insertfrontnode_pre(W, pre_unit_pos_W, 2);
+	insertfrontnode_pre(W, pre_unit_pos_W_2, 2);
+
 	insertfrontnode_pre(BASE_BLUE, pre_struct_pos_blue_base, 0);// 지금은 초기 배치니까 위치는 내가 직접입력 pos 하나만
 	insertfrontnode_pre(PLATE_BLUE, pre_struct_pos_blue_plate, 0);
 
@@ -441,22 +447,23 @@ void init(void) {
 	insertfrontnode_pre(SPICE, pre_struct_pos_blue_spice, 2);
 	insertfrontnode_pre(SPICE, pre_struct_pos_red_spice, 2);
 	
+
+
+	insertfrontnode_pre(H, pre_unit_pos_H, 0);
+	insertfrontnode_pre(h, pre_unit_pos_h, 1);
+
+
+
 	insertfrontnode_pre(ROCK, pre_struct_pos_rock_1, 2);
 	insertfrontnode_pre(ROCK, pre_struct_pos_rock_2, 2);
 	insertfrontnode_pre(ROCK, pre_struct_pos_rock_3, 2);
 	insertfrontnode_pre(BIG_ROCK, pre_struct_pos_big_rock_1, 2);
 	insertfrontnode_pre(BIG_ROCK, pre_struct_pos_big_rock_2, 2);
+	
+	//w이 가장 아래에서 추가 되어있을때 이상하게 w의 속도가 300이상이면 total_object_move 전체가 w의 속도에 맞춰 작동했었음 근데 w를 맨위에 넣으니까 또 괜찮아짐 이유를 전혀 알수없음
+	// 이 오류 해결하고 싶으면 노드위치에 관련이 있는것 같으니 생각해보고 일단은 넘어가자
 
-	insertfrontnode_pre(H, pre_unit_pos_H, 0);
-	insertfrontnode_pre(h, pre_unit_pos_h, 1);
 
-	insertfrontnode_pre(W, pre_unit_pos_W, 2);
-	insertfrontnode_pre(W, pre_unit_pos_W_2, 2);
-
-	//insertfrontnode()하베스터나 웜 생각하면 같은 하베스터고 웜이어도 시작위치가 다른 그러니 이것또 pos로 받아줘야함 그리고 적인지 아군인지도 같이 받아줘야 할듯 저 struct함수처럼
-	//여기에 하베스터등 기본 유닛을 생성//유닛이 정지해있는것도 명령중하나로 하자
-	// 생각해보니 유닛도 적인지 아군인지 구별해야한다
-	// 그리고 건물 추가 함수에 매개변수에 적인지 아군 구분 플래그도 줘야할듯
 	// plate는 이렇게 구현하자 모든 건물 아래는 plate임 그러니까 건물의 hp가 0이되면 문자와 hp 등등을 plate의 것으로 바꿔주면 되지
 	//그리고 건물 생성할때는 스페이바로 선택할곳이 plate 일때만 생성가능하게
 }
@@ -521,6 +528,12 @@ void insertfrontnode_pre(OBJECT_SAMPLE unit_sort, POSITION pre_pos, int side) {
 			}
 		}
 	}
+
+	if (unit_sort.repr == '5') {
+		newnode->is_it_my_side_flag = 2;
+		newnode->repr = unit_sort.repr - side;
+	}
+
 
 	if (head == NULL) {
 		head = newnode;
@@ -665,6 +678,16 @@ node* who_is_the_closest(POSITION W_POS) {
 	
 }// 위치에 상관없이 마지막에 생성된 애를 따라온다 왜지?
 
+void poop(int column, int row) {
+		int r = rand() % 100 + 1;
+		if (r <= 5) {
+			int s = rand() % 5;
+			POSITION A = { row, column };
+			insertfrontnode_pre(SPICE, A, s);
+
+		}
+}
+
 POSITION total_object_next_position(node* curnode) {
 	POSITION diff = psub(curnode->dest, curnode->pos);
 	DIRECTION dir;
@@ -680,11 +703,12 @@ POSITION total_object_next_position(node* curnode) {
 	}// 이런식으로 움직임 커멘드 조절하자// 
 
 	if (curnode->repr == 'W') {
+		poop(curnode->pos.column, curnode->pos.row);
 		node* closest_address;
 		closest_address = who_is_the_closest(curnode->pos);
 		POSITION new_dest = {closest_address->pos.row, closest_address->pos.column};
 
-		curnode->dest = new_dest;// 아시발 같은 구조체를 공유하고 있네 맞다 아니지 하베스터를 생각해봐라 근데 이런 류의 오류일거다아마
+		curnode->dest = new_dest;
 	}
 
 	if (diff.row == 0 && diff.column == 0) {
@@ -737,9 +761,19 @@ void total_object_move() {
 	}
 	curnode = head;
 	while (curnode->next != NULL) {
-		if (sys_clock <= curnode->next_move_time) {
+		
+		if (sys_clock <= curnode->next_move_time) {	
 			return;
 		}
+
+		/*if (curnode->repr == 'W') {
+			int r = rand() % 100 + 1;
+			if (r <= 40) {
+				POSITION A = {curnode->pos.row,curnode->pos.column};
+				insertfrontnode_pre(SPICE, A, 2);
+			}
+		}*/
+
 		map[1][curnode->pos.row][curnode->pos.column] = -1;
 		curnode->pos = total_object_next_position(curnode);
 		map[1][curnode->pos.row][curnode->pos.column] = curnode->repr;
@@ -750,12 +784,12 @@ void total_object_move() {
 	if (sys_clock <= curnode->next_move_time) {
 		return;
 	}
+
 	map[1][curnode->pos.row][curnode->pos.column] = -1;
 	curnode->pos = total_object_next_position(curnode);
 	map[1][curnode->pos.row][curnode->pos.column] = curnode->repr;
 
 	curnode->next_move_time = sys_clock + curnode->speed;
-	
 }
 
 void insertfrontnode(OBJECT_SAMPLE unit_sort)
