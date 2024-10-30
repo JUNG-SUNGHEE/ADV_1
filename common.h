@@ -43,7 +43,7 @@ typedef struct {
 typedef enum {
 	// k_none: 입력된 키가 없음. d_stay(안 움직이는 경우)에 대응
 	k_none = 0, k_up, k_right, k_left, k_down,
-	k_quit, k_space,k_esc, k_make_h, k_show_unit,
+	k_quit, k_space,k_esc, k_make_and_har_h, k_move_m, k_mining_t, k_show_unit,
 	k_undef, // 정의되지 않은 키 입력	
 } KEY;
 
@@ -109,7 +109,22 @@ typedef struct {
 	int str;
 	int hp;
 	int vision;
+	int unit_cnt;
+
+	int select_flag;
+	int cmd_flag_round_move;
+	int cmd_flag_move;
+
+	int possible_cmd[10];
+	int allive_cmd[10];
+	int is_it_my_side_flag;
+	int is_it_structure_flag;// 0이면 유닛 / 1이면 건물
+
+	int size;
+	int rest_spice;
 } OBJECT_SAMPLE;
+
+
 
 typedef struct node
 {
@@ -127,6 +142,20 @@ typedef struct node
 	int str;
 	int hp;
 	int vision;
+	int unit_cnt;
+
+	int select_flag;
+	int cmd_flag_round_move;
+	int cmd_flag_move;
+
+	int possible_cmd[10];// 0:(H) 하베스터 채굴 / 1:(M) move / 2:(P) 순찰    //    3:(H) 하베스터 생산
+	int allive_cmd[10];
+	int is_it_my_side_flag; // 0이면 아군 / 1이면 적군 / 2면 중립
+	int is_it_structure_flag;// 0이면 건물 / 1이면 유닛
+
+	int size;//건물용
+	int rest_spice;//남은 스파이스양
+	
 	struct node* next;
 }node;
 

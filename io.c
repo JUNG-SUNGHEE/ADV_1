@@ -34,7 +34,11 @@ KEY get_key(void) {
 	case 32: return k_space;
 	case 27: return k_esc;
 	case 104 :
-	case 72: return k_make_h;
+	case 72: return k_make_and_har_h;
+	case 109:
+	case 77: return k_move_m;
+	case 116:
+	case 84: return k_mining_t;
 	case 115:
 	case 83: return k_show_unit;
 	case 224:

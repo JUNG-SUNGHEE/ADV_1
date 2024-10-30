@@ -111,14 +111,12 @@ void project(char src[N_LAYER][MAP_HEIGHT][MAP_WIDTH], char dest[MAP_HEIGHT][MAP
 void display_resource(RESOURCE resource);
 void display_map(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH]);
 void display_cursor(CURSOR cursor);
-void display_structur();
 
 
 void display(RESOURCE resource, char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], CURSOR cursor)
 {
 	display_resource(resource);
 	display_map(map);
-	display_structur();
 	display_cursor(cursor);
 
 	// display_system_message()
@@ -136,87 +134,7 @@ void display_resource(RESOURCE resource) {
 	);
 }
 
-void display_structur() {
-	POSITION BASE_BLUE_1 = { 16, 1 };
-	set_color(COLOR_BLUE);
-	gotoxy(BASE_BLUE_1);
-	printf("  \n");
-	POSITION BASE_BLUE_2 = { 17, 1 };
-	set_color(COLOR_BLUE);
-	gotoxy(BASE_BLUE_2);
-	printf("  \n");
 
-	POSITION BASE_RED_1 = { 2, 57 };
-	set_color(COLOR_RED);
-	gotoxy(BASE_RED_1);
-	printf("  \n");
-	POSITION BASE_RED_2 = { 3, 57 };
-	set_color(COLOR_RED);
-	gotoxy(BASE_RED_2);
-	printf("  \n");
-
-	POSITION PLATE_1_BLUE = { 16, 3 };
-	set_color(COLOR_PLATE);
-	gotoxy(PLATE_1_BLUE);
-	printf("  \n");
-	POSITION PLATE_2_BLUE = { 17, 3 };
-	set_color(COLOR_PLATE);
-	gotoxy(PLATE_2_BLUE);
-	printf("  \n");
-
-	POSITION PLATE_1_RED = { 3, 55 };
-	set_color(COLOR_PLATE);
-	gotoxy(PLATE_1_RED);
-	printf("  \n");
-	POSITION PLATE_2_RED = { 2, 55 };
-	set_color(COLOR_PLATE);
-	gotoxy(PLATE_2_RED);
-	printf("  \n");
-
-	POSITION SPICE_1_BLUE = { 13, 1 };
-	set_color(COLOR_SPICE);
-	gotoxy(SPICE_1_BLUE);
-	printf("5\n");
-
-	POSITION SPICE_1_RED = { 6, 58};
-	set_color(COLOR_SPICE);
-	gotoxy(SPICE_1_RED);
-	printf("5\n");
-
-	POSITION ROCK_1 = { 8, 20 };
-	set_color(COLOR_ROCK);
-	gotoxy(ROCK_1);
-	printf("  \n");
-	POSITION ROCK_1_2 = { 7, 20 };
-	set_color(COLOR_ROCK);
-	gotoxy(ROCK_1_2);
-	printf("  \n");
-
-	POSITION ROCK_2 = { 13, 40 };
-	set_color(COLOR_ROCK);
-	gotoxy(ROCK_2);
-	printf("  \n");
-	POSITION ROCK_2_2 = { 12, 40 };
-	set_color(COLOR_ROCK);
-	gotoxy(ROCK_2_2);
-	printf("  \n");
-
-	POSITION ROCK_3 = { 13, 15 };
-	set_color(COLOR_ROCK);
-	gotoxy(ROCK_3);
-	printf(" \n");
-
-	POSITION ROCK_4 = { 3, 41 };
-	set_color(COLOR_ROCK);
-	gotoxy(ROCK_4);
-	printf(" \n");
-	
-	POSITION ROCK_5 = { 15, 46 };
-	set_color(COLOR_ROCK);
-	gotoxy(ROCK_5);
-	printf(" \n");
-	
-}
 
 // subfunction of draw_map()
 void project(char src[N_LAYER][MAP_HEIGHT][MAP_WIDTH], char dest[MAP_HEIGHT][MAP_WIDTH]) {
@@ -238,7 +156,39 @@ void display_map(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH]) {
 		for (int j = 0; j < MAP_WIDTH; j++) {
 			if (frontbuf[i][j] != backbuf[i][j]) {
 				POSITION pos = { i, j };
-				printc(padd(map_pos, pos), backbuf[i][j], COLOR_DEFAULT);
+				if (backbuf[i][j] == 'B') {
+					printc(padd(map_pos, pos), backbuf[i][j], 17);
+				}
+				else if (backbuf[i][j] == 'b') {
+					printc(padd(map_pos, pos), backbuf[i][j], 68);
+				}
+				else if (backbuf[i][j] == 'P') {
+					printc(padd(map_pos, pos), backbuf[i][j], 51);
+				}
+				else if (backbuf[i][j] == 'p') {
+					printc(padd(map_pos, pos), backbuf[i][j], 204);
+				}
+				else if (backbuf[i][j] == '5' || backbuf[i][j] == '4' || backbuf[i][j] == '3' || backbuf[i][j] == '2' || backbuf[i][j] == '1' || backbuf[i][j] == '0') {
+					printc(padd(map_pos, pos), backbuf[i][j], 87);
+				}
+				else if (backbuf[i][j] == 'R') {
+					printc(padd(map_pos, pos), backbuf[i][j], 136);
+				}
+				else if (backbuf[i][j] == 'H') {
+					printc(padd(map_pos, pos), backbuf[i][j], 176);
+				}
+				else if (backbuf[i][j] == 'h') {
+					printc(padd(map_pos, pos), backbuf[i][j], 160);
+				}
+				else if (backbuf[i][j] == 'W') {
+					printc(padd(map_pos, pos), backbuf[i][j], 96);
+				}
+				else if (backbuf[i][j] == 'w') {
+					printc(padd(map_pos, pos), backbuf[i][j], 96);
+				}
+				else {
+					printc(padd(map_pos, pos), backbuf[i][j], COLOR_DEFAULT);
+				}
 			}
 			frontbuf[i][j] = backbuf[i][j];
 		}
@@ -251,7 +201,49 @@ void display_cursor(CURSOR cursor) {
 	POSITION curr = cursor.current;
 	//POSITION A = { 0, 30 };
 	char ch = frontbuf[prev.row][prev.column];
-	printc(padd(map_pos, prev), ch, COLOR_DEFAULT);
+	//printc(padd(map_pos, prev), ch, COLOR_DEFAULT);
+
+
+				if (ch == 'B') {// 이거 함수로?? 가능할것같은데
+					printc(padd(map_pos, prev), ch, 17);
+				}
+				else if (ch == 'b') {
+					printc(padd(map_pos, prev), ch, 68);
+				}
+				else if (ch == 'P') {
+					printc(padd(map_pos, prev), ch, 51);
+				}
+				else if (ch == 'p') {
+					printc(padd(map_pos, prev), ch, 204);
+				}
+				else if (ch == '5' || ch == '4' || ch == '3' || ch == '2' || ch == '1' || ch == '0') {
+					printc(padd(map_pos, prev), ch, 87);
+				}
+				else if (ch == 'R') {
+					printc(padd(map_pos, prev), ch, 136);
+				}
+				else if (ch == 'H') {
+					printc(padd(map_pos, prev), ch, 176);
+				}
+				else if (ch == 'h') {
+					printc(padd(map_pos, prev), ch, 160);
+				}
+				else if (ch == 'W') {
+					printc(padd(map_pos, prev), ch, 96);
+				}
+				else if (ch == 'w') {
+					printc(padd(map_pos, prev), ch, 96);
+				}
+				else {
+					printc(padd(map_pos, prev), ch, COLOR_DEFAULT);
+				}
+
+
+
+
+
+
+
 
 	ch = frontbuf[curr.row][curr.column];
 	printc(padd(map_pos, curr), ch, COLOR_CURSOR);
