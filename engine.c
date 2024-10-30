@@ -677,7 +677,7 @@ node* who_is_the_closest(POSITION W_POS) {
 	return closest_dist_address;
 	
 }// 위치에 상관없이 마지막에 생성된 애를 따라온다 왜지?
-
+//
 void poop(int column, int row) {
 		int r = rand() % 100 + 1;
 		if (r <= 5) {
