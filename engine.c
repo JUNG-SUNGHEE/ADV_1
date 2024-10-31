@@ -60,8 +60,8 @@ CURSOR cursor = { { 1, 1 }, {1, 1} };
 char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH] = { 0 };
 
 RESOURCE resource = {
-	.spice = 0,
-	.spice_max = 0,
+	.spice = 100,
+	.spice_max = 1000,
 	.population = 0,
 	.population_max = 0
 };
@@ -250,28 +250,36 @@ int main(void) {
 			case k_quit: outro();
 			case k_space: 
 				select_cursor = cursor.current; 
-				if (is_there_unit() != &a) {
+				if (is_there_unit() != &a) {// is_there_unit에서 내가 선택한 위치에 유닛, 건물이 없으면 a의 주소를 반환함
 					select_unit_address = is_there_unit();
 				}
 
 				if (select_unit_address->allive_cmd[1] == 1) {
 					select_unit_address->dest.row = select_cursor.row;
 					select_unit_address->dest.column = select_cursor.column;
-					//select_unit_address->allive_cmd[1] = 0;
 					
+					select_unit_address->allive_cmd[1] = 0;
+					select_unit_address->allive_cmd[0] = 1;// allive_cmd[0] 이 1이면 정지를 의미함
 				} 
 				esc_switch = 0; 
 				break;//select_flag는 좋은데 꼭 필요한진 모르겠다.
 			
 			case k_esc: esc_switch = 1; break;// is_there_unit이 주소를 리턴하게 하면 많은것을 할수있다. 이걸로 프로필 출력도 하자. 
 
-			case k_make_and_har_h:  insertfrontnode(H) ; break;
+			case k_make_and_har_h: 
+				if (select_unit_address->repr == 'B' && resource.spice >= H.cost) {
+					resource.spice -= H.cost;
+					insertfrontnode(H); break;
+				}
+			
 			case k_mining_t: 
 				if (select_unit_address->possible_cmd[1] == 1) { 
 					select_unit_address->allive_cmd[0] = 0; 
 					select_unit_address->allive_cmd[1] = 1;//시작하자마자 t를 누르면 멈춰버린다 null을 참조해서 그런듯
 					select_unit_address->allive_cmd[2] = 0;
 				} break;// 아직 완벽하게는 안됨
+
+
 			case k_move_m: 
 				if (select_unit_address->possible_cmd[2] == 1) {
 					select_unit_address->allive_cmd[0] = 0;
@@ -902,7 +910,7 @@ void insertfrontnode(OBJECT_SAMPLE unit_sort)
 	printf("%d", curnode->cost);
 }*/
 
-node* is_there_unit(){
+node* is_there_unit(){// 링크드 리스트를 순회해서 내가 선택한 위치인 select_cursor와 각 유닛의 위치를 비교해서 특정 조건을 만족하는 유닛의 주소를 반환하는 함수
 	node* curnode;
 	if (head == NULL) {
 		return;// 요 리턴을 일단 아무 의미 없는 값으로 주자// 아닌데 애초에 
