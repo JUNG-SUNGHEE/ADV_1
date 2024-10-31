@@ -656,7 +656,7 @@ node* who_is_the_closest(POSITION W_POS) {
 	curnode = head;
 	
 	double closest_dist = 10000;
-	node* closest_dist_address = NULL;
+	node* closest_dist_address = &a;
 	double dist;
 
 	while (curnode->next != NULL) {
@@ -691,7 +691,7 @@ void poop(int column, int row) {
 		}
 }
 
-void eat_unit(int row, int column) {
+void eat_unit(int row, int column) {// 맵에 유닛이 없을때 웜때문에 강제 종료됨
 	node* delnode;// 삭제할 노드 주소 저장
 	node* prevnode;// 삭제할 이전 노드의 주소 저장
 	if (head == NULL) {
@@ -739,9 +739,13 @@ POSITION total_object_next_position(node* curnode) {
 		poop(curnode->pos.column, curnode->pos.row);
 		node* closest_address;
 		closest_address = who_is_the_closest(curnode->pos);
-		POSITION new_dest = {closest_address->pos.row, closest_address->pos.column};
-
-		curnode->dest = new_dest;
+		if (closest_address != &a) {//
+			POSITION new_dest = { closest_address->pos.row, closest_address->pos.column };
+			curnode->dest = new_dest;
+		}
+		else {
+			return curnode->pos;
+		}
 	}
 
 	if (diff.row == 0 && diff.column == 0) {
