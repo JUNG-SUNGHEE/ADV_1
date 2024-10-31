@@ -20,6 +20,9 @@ extern node* head;
 void insertfrontnode(OBJECT_SAMPLE);
 void insertfrontnode_pre(OBJECT_SAMPLE, POSITION, int);
 void poop(int, int);
+void eat_unit(int, int);
+
+
 
 double distance(POSITION, POSITION);
 node* who_is_the_closest(POSITION);
@@ -447,10 +450,10 @@ void init(void) {
 	insertfrontnode_pre(SPICE, pre_struct_pos_blue_spice, 2);
 	insertfrontnode_pre(SPICE, pre_struct_pos_red_spice, 2);
 	
-
+	insertfrontnode_pre(h, pre_unit_pos_h, 1);
 
 	insertfrontnode_pre(H, pre_unit_pos_H, 0);
-	insertfrontnode_pre(h, pre_unit_pos_h, 1);
+	
 
 
 
@@ -688,6 +691,36 @@ void poop(int column, int row) {
 		}
 }
 
+void eat_unit(int row, int column) {
+	node* delnode;// 삭제할 노드 주소 저장
+	node* prevnode;// 삭제할 이전 노드의 주소 저장
+	if (head == NULL) {
+		return;
+	}
+
+	if (head->pos.column == column && head->pos.row == row) {
+		delnode = head;
+		head = head->next;
+		map[1][row][column] = -1;
+		free(delnode);
+		return;
+	}
+
+	prevnode = head;
+	delnode = head;
+	while (prevnode->next != NULL) {
+		delnode = prevnode->next;
+
+		if (delnode->pos.column == column && delnode->pos.row == row) {
+			prevnode->next = delnode->next;
+			map[1][row][column] = -1;
+			free(delnode);
+			return;
+		}
+		prevnode = delnode;
+	}
+}
+
 POSITION total_object_next_position(node* curnode) {
 	POSITION diff = psub(curnode->dest, curnode->pos);
 	DIRECTION dir;
@@ -743,6 +776,20 @@ POSITION total_object_next_position(node* curnode) {
 	// next_pos가 맵을 벗어나지 않고, (지금은 없지만)장애물에 부딪히지 않으면 다음 위치로 이동
 	// 지금은 충돌 시 아무것도 안 하는데, 나중에는 장애물을 피해가거나 적과 전투를 하거나... 등등
 	POSITION next_pos = pmove(curnode->pos, dir);
+	
+	
+	if (curnode->repr == 'W' && map[1][next_pos.row][next_pos.column] != -1) {
+		
+		eat_unit(next_pos.row, next_pos.column);
+			
+		
+			//내용
+			
+	//	}
+	}
+
+
+
 	if (1 <= next_pos.row && next_pos.row <= GAME_HEIGHT - 2 && \
 		1 <= next_pos.column && next_pos.column <= GAME_WIDTH - 2 && \
 		map[1][next_pos.row][next_pos.column] < 0) {
