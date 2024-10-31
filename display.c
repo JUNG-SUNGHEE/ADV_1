@@ -115,6 +115,7 @@ void display_cursor(CURSOR cursor);
 
 void display(RESOURCE resource, char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], CURSOR cursor)
 {
+	display_sys_message();
 	display_resource(resource);
 	display_map(map);
 	display_cursor(cursor);

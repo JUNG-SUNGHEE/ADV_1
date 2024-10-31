@@ -2,6 +2,7 @@
 #include <time.h>
 #include <assert.h>
 #include <math.h>
+#include <string.h>
 #include "common.h"
 #include "io.h"
 #include "display.h"
@@ -11,10 +12,16 @@ node a;//그 아무의미 없는 리턴용
 node* select_unit_address = &a;
 
 
-
 int w_cnt = 0; //그냥 검사용
 POSITION A = { 0, 60 };// 그냥 검사용
 
+
+void display_sys_message();
+char total_sys_message[20][200] = { 
+	"A new harvester ready", 
+	"Not enough spice"
+};
+char curr_sys_cammand_message[6][200];
 
 extern node* head;
 void insertfrontnode(OBJECT_SAMPLE);
@@ -22,7 +29,7 @@ void insertfrontnode_pre(OBJECT_SAMPLE, POSITION, int);
 void poop(int, int);
 void eat_unit(int, int);
 
-
+void insert_sys_message(int);
 
 double distance(POSITION, POSITION);
 node* who_is_the_closest(POSITION);
@@ -58,6 +65,8 @@ CURSOR cursor = { { 1, 1 }, {1, 1} };
 
 /* ================= game data =================== */
 char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH] = { 0 };
+
+
 
 RESOURCE resource = {
 	.spice = 100,
@@ -258,8 +267,8 @@ int main(void) {
 					select_unit_address->dest.row = select_cursor.row;
 					select_unit_address->dest.column = select_cursor.column;
 					
-					select_unit_address->allive_cmd[1] = 0;
-					select_unit_address->allive_cmd[0] = 1;// allive_cmd[0] 이 1이면 정지를 의미함
+					//select_unit_address->allive_cmd[1] = 0;
+					//select_unit_address->allive_cmd[0] = 1;// allive_cmd[0] 이 1이면 정지를 의미함
 				} 
 				esc_switch = 0; 
 				break;//select_flag는 좋은데 꼭 필요한진 모르겠다.
@@ -267,9 +276,17 @@ int main(void) {
 			case k_esc: esc_switch = 1; break;// is_there_unit이 주소를 리턴하게 하면 많은것을 할수있다. 이걸로 프로필 출력도 하자. 
 
 			case k_make_and_har_h: 
-				if (select_unit_address->repr == 'B' && resource.spice >= H.cost) {
-					resource.spice -= H.cost;
-					insertfrontnode(H); break;
+				if (select_unit_address->repr == 'B') {
+					if (resource.spice < H.cost) {
+						insert_sys_message(1);// 여기다가 함수 넣어주자 시스템 메시지
+					}
+					if (resource.spice >= H.cost) {
+						insert_sys_message(0);
+						resource.spice -= H.cost;
+						//여기다 시스템 메시지 출력 기능넣을까? 이미 조건은 갖춰져있는데
+						//배열로 만들어볼까 이차원배열로 하면 쌉가능 일단 분리먼저
+						insertfrontnode(H); break;
+					}
 				}
 			
 			case k_mining_t: 
@@ -281,6 +298,7 @@ int main(void) {
 
 
 			case k_move_m: 
+				resource.spice += 5;
 				if (select_unit_address->possible_cmd[2] == 1) {
 					select_unit_address->allive_cmd[0] = 0;
 					select_unit_address->allive_cmd[1] = 0;
@@ -310,7 +328,7 @@ int main(void) {
 		sample_obj_move();
 		total_object_move();
 		
-		
+
 		// 화면 출력
 		display(resource, map, cursor);
 		Sleep(TICK);
@@ -366,8 +384,32 @@ void outro(void) {
 	printf("마지막 스페이스바 위치 x = %d, y = %d", select_cursor.column, select_cursor.row);
 }*/
 
+void insert_sys_message(int select_cammand) {
+	for (int i = 0; i < 5; i++) {
+		strcpy_s(curr_sys_cammand_message[5 - i], sizeof(curr_sys_cammand_message[i]), curr_sys_cammand_message[5 - i - 1]);
+	}
+	strcpy_s(curr_sys_cammand_message[0], sizeof(curr_sys_cammand_message[0]), total_sys_message[select_cammand]);
 
+}
 
+void display_sys_message() {
+	POSITION SYS_0 = { 25, 2 };
+	POSITION SYS_1 = { 24, 2 };
+	POSITION SYS_2 = { 23, 2 };
+	POSITION SYS_3 = { 22, 2 };
+	POSITION SYS_4 = { 21, 2 };
+	set_color(7);
+		gotoxy(SYS_0);
+		printf("%s", curr_sys_cammand_message[0]);
+		gotoxy(SYS_1);
+		printf("%s", curr_sys_cammand_message[1]);
+		gotoxy(SYS_2);
+		printf("%s", curr_sys_cammand_message[2]);
+		gotoxy(SYS_3);
+		printf("%s", curr_sys_cammand_message[3]);
+		gotoxy(SYS_4);
+		printf("%s", curr_sys_cammand_message[4]);
+}
 
 void init(void) {
 	// layer 0(map[0])에 지형 생성
@@ -953,3 +995,4 @@ node* is_there_unit(){// 링크드 리스트를 순회해서 내가 선택한 �
 	}
 	return &a;
 }
+
