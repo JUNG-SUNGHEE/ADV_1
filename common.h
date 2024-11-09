@@ -107,7 +107,9 @@ typedef struct {
 	int cost;
 	int population;
 	int str;
-	int hp;
+	int as;
+	int curr_hp;
+	int max_hp;
 	int vision;
 	int unit_cnt;
 
@@ -142,7 +144,9 @@ typedef struct node
 	int cost;
 	int population;
 	int str;
-	int hp;
+	int as;
+	int curr_hp;
+	int max_hp;
 	int vision;
 	int unit_cnt;
 

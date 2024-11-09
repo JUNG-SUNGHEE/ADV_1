@@ -104,7 +104,9 @@ OBJECT_SAMPLE H = {
 	.cost = 5,
 	.population = 5,
 	.str = 0,
-	.hp = 70,
+	.as = 0,
+	.curr_hp = 70,
+	.max_hp = 70,
 	.vision = 0,
 	.size = 1,
 
@@ -140,7 +142,9 @@ OBJECT_SAMPLE h = {
 	.cost = 5,
 	.population = 5,
 	.str = 0,
-	.hp = 70,
+	.as = 0,
+	.curr_hp = 70,
+	.max_hp = 70,
 	.vision = 0,
 	.size = 1,
 
@@ -172,8 +176,10 @@ OBJECT_SAMPLE W = {
 	.speed = 900,
 	.next_move_time = 300,
 	.str = 9999,
-	.hp = -1,
-	.vision = 0,
+	.curr_hp = 9999,
+	.max_hp = 9999,
+	.as = 9999,
+	.vision = 9999,
 	.size = 1,
 
 	.select_flag = 0,
@@ -200,7 +206,12 @@ OBJECT_SAMPLE BASE_BLUE = {
 },
 	.pos = {0},
 	.size = 2,
-	.hp = 50,
+	.curr_hp = 50,
+	.max_hp = 50,
+	.str = -1,
+	.as = -1,
+	.vision = -1,
+	.speed = -1,
 	.cost = 0,
 	.repr = 'B',
 
@@ -223,7 +234,12 @@ OBJECT_SAMPLE BASE_RED = {
 },
 	.pos = {0},
 	.size = 2,
-	.hp = 50,
+	.curr_hp = 50,
+	.max_hp = 50,
+	.str = -1,
+	.as = -1,
+	.vision = -1,
+	.speed = -1,
 	.cost = 0,
 	.repr = 'b',
 
@@ -248,7 +264,12 @@ OBJECT_SAMPLE PLATE_BLUE = {
 },
 	.pos = {0},
 	.size = 2,
-	.hp = -1,
+	.curr_hp = -1,
+	.max_hp = -1,
+	.str = -1,
+	.as = -1,
+	.vision = -1,
+	.speed = -1,
 	.cost = 1,
 	.repr = 'P',
 
@@ -271,7 +292,12 @@ OBJECT_SAMPLE PLATE_RED = {
 },
 	.pos = {0},
 	.size = 2,
-	.hp = -1,
+	.curr_hp = -1,
+	.max_hp = -1,
+	.str = -1,
+	.as = -1,
+	.vision = -1,
+	.speed = -1,
 	.cost = 1,
 	.repr = 'p',
 
@@ -293,7 +319,12 @@ OBJECT_SAMPLE SPICE = {
 	{'T','T','T','T','T','T','T','A','A','A','E','T','T','T','T','T','T'},
 	{'T','T','T','T','T','T','T','T','A','E','T','T','T','T','T','T','T'}
 },
-	.hp = -1,
+	.curr_hp = -1,
+	.max_hp= -1,
+	.str = -1,
+	.as = -1,
+	.vision = -1,
+	.speed = -1,
 	.size = 1,
 	.rest_spice = 0,
 	.repr = '5',
@@ -313,7 +344,12 @@ OBJECT_SAMPLE ROCK = {
 	{'T','T','T','T','T','T','T','T','T','T','T','T','T','T','T','T','T'},
 	{'T','T','T','T','T','T','T','T','T','T','T','T','T','T','T','T','T'}
 },
-	.hp = -1,
+	.curr_hp = -1,
+	.max_hp = -1,
+	.str = -1,
+	.as = -1,
+	.vision = -1,
+	.speed = -1,
 	.size = 1,
 	.repr = 'R',
 	.is_it_structure_flag = 0,
@@ -332,7 +368,12 @@ OBJECT_SAMPLE BIG_ROCK = {
 	{'T','U','U','U','U','U','U','U','R','U','U','U','U','U','U','T','T'},
 	{'T','U','U','U','U','U','U','U','R','T','T','T','T','T','T','T','T'}
 },
-	.hp = -1,
+	.curr_hp = -1,
+	.max_hp = -1,
+	.str = -1,
+	.as = -1,
+	.vision = -1,
+	.speed = -1,
 	.size = 2,
 	.repr = 'R',
 	.is_it_structure_flag = 0,
@@ -489,18 +530,104 @@ void outro(void) {
 
 
 void display_status_message() {// 만약 내가 하베스터를 선택한 상태로 하베스터가 죽어서 free가 되면 없는걸 참조해서 출력하니 멈추려나
-	POSITION hp_pos = { 13, 70 };
 	POSITION side_pos_blue = {2, 84};
 	POSITION side_pos_red = { 2, 87 };
 	POSITION side_pos_yellow = { 2, 88 };
 
-	POSITION name_pos = {4, 86};
+	POSITION name_pos_4 = {4, 86};
+	POSITION name_pos_2_1 = { 4, 88 };
 
-	gotoxy(name_pos);
+	POSITION HP_POS = { 6,82 };
+	POSITION STR_POS = { 6, 92 };
+	POSITION Speed_POS = { 8, 82 };
+	POSITION AS_POS = { 8, 92 };
+	POSITION Vision_POS = { 10,92 };
+
+	POSITION UNIT_HP_POS = { 7,82 };
+	POSITION UNIT_STR_POS = { 7, 92 };
+	POSITION UNIT_Speed_POS = { 9, 82 };
+	POSITION UNIT_AS_POS = { 9, 92 };
+	POSITION UNIT_Vision_POS = { 11,92 };
+
+	POSITION HP_STR_LINE_POS = { 7, 80 };
+	POSITION Speed_AS_LINE_POS = { 9, 80 };
+	POSITION vision_LINE_POS = { 11, 91 };
+	//240
 	set_color(112);
+	gotoxy(HP_POS);
+	printf("체력");
+	gotoxy(STR_POS);
+	printf("공격력");
+	gotoxy(Speed_POS);
+	printf("이동속도");
+	gotoxy(AS_POS);
+	printf("공격속도");
+	gotoxy(Vision_POS);
+	printf("시야");
+
+	set_color(240);
+	gotoxy(HP_STR_LINE_POS);
+	printf("                    ");
+	set_color(240);
+	gotoxy(Speed_AS_LINE_POS);
+	printf("                    ");
+	gotoxy(vision_LINE_POS);
+	printf("         ");
+	
+	gotoxy(UNIT_HP_POS);
+	printf("%d/%d", select_unit_address->curr_hp, select_unit_address->max_hp);
+	gotoxy(UNIT_Speed_POS);
+	printf("%d", select_unit_address->speed);
+	gotoxy(UNIT_STR_POS);
+	printf("%d", select_unit_address->str);
+	gotoxy(UNIT_AS_POS);
+	printf("%d", select_unit_address->as);
+	gotoxy(UNIT_Vision_POS);
+	printf("%d", select_unit_address->speed);
+
+
+
+	set_color(112);
+	gotoxy(name_pos_4);
+	printf("            ");
 	switch (select_unit_address->repr) {
 	case 'h':
-	case 'H': printf("하베스터");
+	case 'H':
+		gotoxy(name_pos_4);
+		printf("하베스터"); 
+		break;
+	case '5':
+	case '4':
+	case '3':
+	case '2':
+	case '1':
+		gotoxy(name_pos_4);
+		printf("스파이스"); 
+		break;
+	case 'R':
+		gotoxy(name_pos_4);
+			if(select_unit_address->size == 1){
+				printf("작은바위");
+			}
+			else {
+				printf("큰 바위");
+			}
+		break;
+
+	case 'B':
+	case 'b':
+		gotoxy(name_pos_2_1);
+		printf("본진");
+		break;
+	case 'P':
+	case 'p':
+		gotoxy(name_pos_2_1);
+		printf("장판");
+		break;
+	case 'W':
+		gotoxy(name_pos_2_1);
+		printf("웜");
+		break;
 	}
 	
 
@@ -531,8 +658,6 @@ void display_status_message() {// 만약 내가 하베스터를 선택한 상태
 		printf("하코넨");
 	}*/
 	
-	gotoxy(hp_pos);
-	printf("-----%c----", select_unit_address->repr);
 
 
 
@@ -770,7 +895,19 @@ void init(void) {
 	for (int i = 80; i < 100; i++) {
 		map[0][4][i] = '#';
 	}
+	for (int i = 80; i < 91; i++) {
+		map[0][9][i] = '#';
+	}
+	for (int i = 90; i < 100; i++) {
+		map[0][11][i] = '#';
+	}
+	map[0][10][90] = '#';
 	
+		/*POSITION HP_STR_LINE_POS = {7, 80};
+	POSITION Speed_AS_LINE_POS = { 9, 80 };
+	POSITION vision_LINE_POS = { 11, 91 };*/
+
+
 
 	//아마 레이어 0에 건물을 지어줘야하는데 함수로 크기, 색, 문자, 위치 입력 받아서 만들면 될듯
 	
@@ -848,7 +985,8 @@ void insertfrontnode_pre(OBJECT_SAMPLE unit_sort, POSITION pre_pos, int side) {
 	newnode->cost = unit_sort.cost;
 	newnode->dest = unit_sort.dest;
 	newnode->src = unit_sort.src;
-	newnode->hp = unit_sort.hp;
+	newnode->curr_hp = unit_sort.curr_hp;
+	newnode->max_hp = unit_sort.max_hp;
 	newnode->move_period = unit_sort.move_period;
 	newnode->next_move_time = unit_sort.next_move_time;
 	newnode->population = unit_sort.population;
@@ -856,6 +994,7 @@ void insertfrontnode_pre(OBJECT_SAMPLE unit_sort, POSITION pre_pos, int side) {
 	newnode->repr = unit_sort.repr;
 	newnode->speed = unit_sort.speed;
 	newnode->str = unit_sort.str;
+	newnode->as = unit_sort.as;
 	newnode->vision = unit_sort.vision;
 	newnode->unit_cnt = cnt;//얜 없네 머지
 
@@ -1225,7 +1364,8 @@ void insertfrontnode(OBJECT_SAMPLE unit_sort)
 	newnode->cost = unit_sort.cost;
 	newnode->dest = unit_sort.dest;
 	newnode->src = unit_sort.src;
-	newnode->hp = unit_sort.hp;
+	newnode->curr_hp = unit_sort.curr_hp;
+	newnode->max_hp = unit_sort.max_hp;
 	newnode->move_period = unit_sort.move_period;
 	newnode->next_move_time = unit_sort.next_move_time;
 	newnode->population = unit_sort.population;
@@ -1233,6 +1373,7 @@ void insertfrontnode(OBJECT_SAMPLE unit_sort)
 	newnode->repr = unit_sort.repr;
 	newnode->speed = unit_sort.speed;
 	newnode->str = unit_sort.str;
+	newnode->as = unit_sort.as;
 	newnode->vision = unit_sort.vision;
 	newnode->unit_cnt = cnt;//얜 없네 머지
 
