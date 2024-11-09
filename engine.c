@@ -85,7 +85,7 @@ OBJECT_SAMPLE obj = {
 
 OBJECT_SAMPLE H = {
 	.image = {
-	{'M','M','M','M','M','M','M','M','M','M','M','M','M','M','M','M','M'},
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','B','B','M','M'},
 	{'M','M','M','M','M','M','M','M','M','M','M','M','M','Q','M','M','M'},
 	{'M','M','M','M','U','U','M','M','M','M','M','M','M','Q','R','M','M'},
 	{'M','M','M','T','T','Q','T','U','U','U','U','U','U','U','R','T','T'},
@@ -120,6 +120,16 @@ OBJECT_SAMPLE H = {
 // 건물, 유닛 구별 이거 하면 같은 명령어라고 해도 구별이 가능해진다
 
 OBJECT_SAMPLE h = {
+	.image = {
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','b','b','M','M'},
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','Q','M','M','M'},
+	{'M','M','M','M','U','U','M','M','M','M','M','M','M','Q','R','M','M'},
+	{'M','M','M','T','T','Q','T','U','U','U','U','U','U','U','R','T','T'},
+	{'T','T','T','T','T','T','U','U','U','U','R','R','R','R','R','R','T'},
+	{'T','T','R','R','R','R','U','U','U','U','R','R','R','R','R','R','R'},
+	{'T','Q','Q','Q','R','R','U','U','U','R','R','R','R','R','R','R','R'},
+	{'T','Q','Q','Q','U','U','T','T','T','T','T','T','T','T','T','T','T'}
+},
 	.pos = {3, 58},
 	.dest = {3, 58},//{5, 15},
 	.src = {3, 58},
@@ -140,11 +150,21 @@ OBJECT_SAMPLE h = {
 
 	.possible_cmd = {1, 1, 1},// 0: 정지 // 1:(H) 하베스터 채굴 // 2:(M) move // 3:(P) 순찰 // 4:(H) 하베스터 생산
 	.allive_cmd = {1}, // 이렇게 하면 처음부터 가만히 있게 할수있다 그리고 나중에 다른 명령들어오면 풀어주자
-	.is_it_my_side_flag = 1,
+	.is_it_my_side_flag = 0,
 	.is_it_structure_flag = 1// 0이면 건물 / 1이면 유닛
 };
 
 OBJECT_SAMPLE W = {
+	.image = {
+	{'M','M','M','M','T','T','T','T','T','T','T','T','T','T','T','T','T'},
+	{'M','M','T','T','T','T','T','T','T','T','T','T','T','T','T','M','M'},
+	{'M','M','T','T','R','R','Q','T','T','T','T','T','T','T','M','M','A'},
+	{'M','M','T','U','R','R','Q','Q','T','T','T','T','T','M','M','M','A'},
+	{'M','M','T','U','R','R','Q','Q','T','T','T','T','T','M','M','M','A'},
+	{'M','M','T','T','R','R','Q','T','T','T','T','T','M','M','M','M','A'},
+	{'M','M','M','T','T','T','T','T','T','M','M','M','M','M','M','M','M'},
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','M','M','M','M'}
+},
 	.pos = {0},
 	.dest = {0},
 	.src = {0},
@@ -168,6 +188,16 @@ OBJECT_SAMPLE W = {
 };
 
 OBJECT_SAMPLE BASE_BLUE = {
+	.image = {
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','B','B','B','B'},
+	{'M','M','M','M','U','M','U','M','U','M','U','M','U','B','B','B','B'},
+	{'M','M','M','M','U','U','U','U','U','U','U','U','U','M','M','M','M'},
+	{'M','M','M','T','U','Q','U','Q','U','Q','U','Q','U','T','T','T','T'},
+	{'T','T','T','T','U','U','U','U','U','U','U','U','U','P','P','P','P'},
+	{'P','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','P'},
+	{'P','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','P'},
+	{'P','P','P','P','P','P','P','P','P','P','P','P','P','P','P','P','P'}
+},
 	.pos = {0},
 	.size = 2,
 	.hp = 50,
@@ -177,10 +207,20 @@ OBJECT_SAMPLE BASE_BLUE = {
 
 	.possible_cmd = {0,0,0,0,1},// 0: 정지 // 1:(H) 하베스터 채굴 // 2:(M) move // 3:(P) 순찰 // 4:(H) 하베스터 생산
 	.allive_cmd = {1, 0},// 이렇게 해서 처음부터 가만히 있게하고 건물이니 풀지말자 저 1 
-	.is_it_structure_flag =0
-
+	.is_it_structure_flag =0,
+	.is_it_my_side_flag = 1
 };
 OBJECT_SAMPLE BASE_RED = {
+	.image = {
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','b','b','b','b'},
+	{'M','M','M','M','U','M','U','M','U','M','U','M','U','b','b','b','b'},
+	{'M','M','M','M','U','U','U','U','U','U','U','U','U','M','M','M','M'},
+	{'M','M','M','T','U','Q','U','Q','U','Q','U','Q','U','T','T','T','T'},
+	{'T','T','T','T','U','U','U','U','U','U','U','U','U','p','p','p','p'},
+	{'p','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','p'},
+	{'p','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','p'},
+	{'p','p','p','p','p','p','p','p','p','p','p','p','p','p','p','p','p'}
+},
 	.pos = {0},
 	.size = 2,
 	.hp = 50,
@@ -190,12 +230,22 @@ OBJECT_SAMPLE BASE_RED = {
 
 	.possible_cmd = {0,0,0,0,1},
 	.allive_cmd = {1},
-	.is_it_structure_flag = 0
-
+	.is_it_structure_flag = 0,
+	.is_it_my_side_flag = 0
 };
 
 
 OBJECT_SAMPLE PLATE_BLUE = {
+	.image = {
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','B','B','B','B'},
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','B','B','B','B'},
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','M','M','M','M'},
+	{'M','M','M','T','T','T','T','T','T','T','T','T','T','T','T','T','T'},
+	{'T','T','T','T','P','P','P','P','P','P','P','P','P','P','P','P','P'},
+	{'P','P','P','P','P','P','P','P','P','P','P','P','P','P','P','P','P'},
+	{'P','P','P','P','P','P','P','P','P','P','P','P','P','P','P','P','P'},
+	{'P','P','P','P','P','P','P','P','P','P','P','P','P','P','P','P','P'}
+},
 	.pos = {0},
 	.size = 2,
 	.hp = -1,
@@ -205,10 +255,20 @@ OBJECT_SAMPLE PLATE_BLUE = {
 
 	.possible_cmd = {0},
 	.allive_cmd = {1},
-	.is_it_structure_flag = 0
-
+	.is_it_structure_flag = 0,
+	.is_it_my_side_flag = 1
 };
 OBJECT_SAMPLE PLATE_RED = {
+	.image = {
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','b','b','b','b'},
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','b','b','b','b'},
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','M','M','M','M'},
+	{'M','M','M','T','T','T','T','T','T','T','T','T','T','T','T','T','T'},
+	{'T','T','T','T','p','p','p','p','p','p','p','p','p','p','p','p','p'},
+	{'p','p','p','p','p','p','p','p','p','p','p','p','p','p','p','p','p'},
+	{'p','p','p','p','p','p','p','p','p','p','p','p','p','p','p','p','p'},
+	{'p','p','p','p','p','p','p','p','p','p','p','p','p','p','p','p','p'}
+},
 	.pos = {0},
 	.size = 2,
 	.hp = -1,
@@ -218,32 +278,65 @@ OBJECT_SAMPLE PLATE_RED = {
 
 	.possible_cmd = {0},
 	.allive_cmd = {1},
-	.is_it_structure_flag = 0
-
+	.is_it_structure_flag = 0,
+	.is_it_my_side_flag = 0
 };
 
 OBJECT_SAMPLE SPICE = {
+	.image = {
+	{'M','M','M','M','M','M','M','M','A','E','M','M','M','M','M','M','M'},
+	{'M','M','M','M','M','M','M','A','A','A','E','M','M','M','M','M','M'},
+	{'M','M','M','M','M','A','A','A','A','A','A','A','E','M','M','M','M'},
+	{'M','M','M','T','A','A','A','A','A','A','A','A','A','E','T','T','T'},
+	{'T','T','T','T','A','A','A','A','A','A','A','A','A','E','T','T','T'},
+	{'T','T','T','T','T','A','A','A','A','A','A','A','E','T','T','T','T'},
+	{'T','T','T','T','T','T','T','A','A','A','E','T','T','T','T','T','T'},
+	{'T','T','T','T','T','T','T','T','A','E','T','T','T','T','T','T','T'}
+},
 	.hp = -1,
 	.size = 1,
 	.rest_spice = 0,
 	.repr = '5',
 	.is_it_structure_flag = 0,
+	.is_it_my_side_flag = 2,
 	.allive_cmd = {1}
 };//하베스트가 스파이스를 채취했다의 조건이 참일때  .repr의 아스키를 -1로 하고 레스트 스파이스도 -1로 줄이자 그리고 0되면 노드 삭제 // 웜이 생산 할때는 랜덤으로 숫자가 나와야하는데 이것도 랜덤값을 
 //대입하자 repr에 0~5까지의 아스키코드를 랜덤으로 해서 대입되게 // 하베스터나 다른 건물들도 문자 보이게 할지 고민 더 직관적이긴 할듯
 OBJECT_SAMPLE ROCK = {
+	.image = {
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','M','M','M','M'},
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','M','M','M','M'},
+	{'M','M','M','M','M','U','U','U','U','U','R','M','M','M','M','M','M'},
+	{'M','M','M','T','T','U','U','U','U','U','U','R','T','T','T','T','T'},
+	{'T','T','T','T','T','U','U','U','U','U','U','R','T','T','T','T','T'},
+	{'T','T','T','T','T','U','U','U','U','U','U','R','T','T','T','T','T'},
+	{'T','T','T','T','T','T','T','T','T','T','T','T','T','T','T','T','T'},
+	{'T','T','T','T','T','T','T','T','T','T','T','T','T','T','T','T','T'}
+},
 	.hp = -1,
 	.size = 1,
 	.repr = 'R',
 	.is_it_structure_flag = 0,
+	.is_it_my_side_flag = 2,
 	.allive_cmd = {1}
 };
 
 OBJECT_SAMPLE BIG_ROCK = {
+	.image = {
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','M','M','M','M'},
+	{'M','M','M','M','M','M','U','U','U','U','U','U','U','U','M','M','M'},
+	{'M','M','M','M','M','M','U','U','U','U','U','U','U','U','U','M','M'},
+	{'M','M','U','U','U','U','U','R','U','U','U','U','U','U','U','T','T'},
+	{'T','T','U','U','U','U','U','U','R','U','U','U','U','U','U','T','T'},
+	{'T','U','U','U','U','U','U','U','R','U','U','U','U','U','U','T','T'},
+	{'T','U','U','U','U','U','U','U','R','U','U','U','U','U','U','T','T'},
+	{'T','U','U','U','U','U','U','U','R','T','T','T','T','T','T','T','T'}
+},
 	.hp = -1,
 	.size = 2,
 	.repr = 'R',
 	.is_it_structure_flag = 0,
+	.is_it_my_side_flag = 2,
 	.allive_cmd = {1}
 };// 이렇게 중립인 경우 hp가 -1은 공격이 불가능하게 하자
 
@@ -396,8 +489,51 @@ void outro(void) {
 
 
 void display_status_message() {// 만약 내가 하베스터를 선택한 상태로 하베스터가 죽어서 free가 되면 없는걸 참조해서 출력하니 멈추려나
-	POSITION image = { 1, 62 };
 	POSITION hp_pos = { 13, 70 };
+	POSITION side_pos_blue = {2, 84};
+	POSITION side_pos_red = { 2, 87 };
+	POSITION side_pos_yellow = { 2, 88 };
+
+	POSITION name_pos = {4, 86};
+
+	gotoxy(name_pos);
+	set_color(112);
+	switch (select_unit_address->repr) {
+	case 'h':
+	case 'H': printf("하베스터");
+	}
+	
+
+
+	gotoxy(side_pos_blue);
+	printf("            ");
+	switch (select_unit_address->is_it_my_side_flag) {
+	case 1: 
+		gotoxy(side_pos_red);
+		set_color(116); 
+		printf("하코넨");  
+
+		break;// 정말 이상함 이거 반대로 해야 제대로 돌아감
+	case 0: 
+		gotoxy(side_pos_blue);
+		set_color(113); 
+		printf("아트레이디스");  
+		break;
+	case 2: 
+		gotoxy(side_pos_yellow);
+		set_color(118); 
+		printf("중립");
+		break;
+	}
+
+	/*if (select_unit_address->is_it_my_side_flag == 0) {
+		set_color(116); 
+		printf("하코넨");
+	}*/
+	
+	gotoxy(hp_pos);
+	printf("-----%c----", select_unit_address->repr);
+
 
 
 	//========== 이미지 출력 ==================================
@@ -545,10 +681,8 @@ void display_status_message() {// 만약 내가 하베스터를 선택한 상태
 	map[0][8][77] = select_unit_address->image[7][15];
 	map[0][8][78] = select_unit_address->image[7][16];
 	//=========  이미지 출력 끝==========================
-	// 이미지주변에 구분선을 추가하자 #넣은 흰색으로하자
 
-	gotoxy(hp_pos);
-	printf("-----%c----", select_unit_address->repr);
+	
 }
 
 
@@ -581,9 +715,6 @@ void display_sys_message() {
 
 void init(void) {
 	// layer 0(map[0])에 지형 생성
-
-	
-
 
 	for (int j = 0; j < GAME_WIDTH; j++) {
 		map[0][0][j] = '#';
@@ -624,14 +755,22 @@ void init(void) {
 			map[0][GAME_HEIGHT + 1 + i][j] = ' ';
 		}
 
-		for (int i = 1; i <= 8; i++) {
-			map[0][i][79] = '#';
-		}
-		for (int i = 62; i <= 79; i++) {
-			map[0][9][i] = '#';
-		}
+		
 	}
 
+	for (int i = 1; i <= 8; i++) {
+		map[0][i][79] = '#';
+	}
+	for (int i = 62; i <= 79; i++) {
+		map[0][9][i] = '#';
+	}
+	for (int i = 80; i < 100; i++) {
+		map[0][2][i] = '#';
+	}
+	for (int i = 80; i < 100; i++) {
+		map[0][4][i] = '#';
+	}
+	
 
 	//아마 레이어 0에 건물을 지어줘야하는데 함수로 크기, 색, 문자, 위치 입력 받아서 만들면 될듯
 	
