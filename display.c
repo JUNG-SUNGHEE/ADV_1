@@ -110,6 +110,7 @@ char frontbuf[MAP_HEIGHT][MAP_WIDTH] = { 0 };
 void project(char src[N_LAYER][MAP_HEIGHT][MAP_WIDTH], char dest[MAP_HEIGHT][MAP_WIDTH]);
 void display_resource(RESOURCE resource);
 void display_map(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH]);
+void change_map(int, int, int, int, int);
 void display_cursor(CURSOR cursor);
 
 
@@ -149,12 +150,9 @@ void project(char src[N_LAYER][MAP_HEIGHT][MAP_WIDTH], char dest[MAP_HEIGHT][MAP
 		}
 	}
 }// 투사 이해 완(layer 0을 먼저 입력하고 같은자리에 조건이 맞다면 layer 1을 입력하니까 투사가 되는거다)
-
-void display_map(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH]) {
-	project(map, backbuf);
-
-	for (int i = 0; i < MAP_HEIGHT; i++) {
-		for (int j = 0; j < MAP_WIDTH; j++) {
+void change_map(int hight_f, int width_f, int hight_s, int width_s, int display_sort) {
+	for (int i = hight_s; i < hight_f; i++) {
+		for (int j = width_s; j < width_f; j++) {
 			if (frontbuf[i][j] != backbuf[i][j]) {
 				POSITION pos = { i, j };
 				if (backbuf[i][j] == 'B') {
@@ -187,6 +185,32 @@ void display_map(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH]) {
 				else if (backbuf[i][j] == 'w') {
 					printc(padd(map_pos, pos), backbuf[i][j], 96);
 				}
+				else if (backbuf[i][j] == ' ') {
+					switch (display_sort) {
+					case 0: 
+						printc(padd(map_pos, pos), backbuf[i][j], 238);
+						break;
+					case 1:
+					case 2:
+					case 3:
+						printc(padd(map_pos, pos), backbuf[i][j], 112);
+						break;
+					}
+
+				}
+				else if (backbuf[i][j] == '#') {
+
+					switch (display_sort) {
+					case 0:
+						printc(padd(map_pos, pos), backbuf[i][j], 240);
+						break;
+					case 1:
+					case 2:
+					case 3:
+						printc(padd(map_pos, pos), backbuf[i][j], 128);
+						break;
+					}
+				}
 				else {
 					printc(padd(map_pos, pos), backbuf[i][j], COLOR_DEFAULT);
 				}
@@ -194,6 +218,15 @@ void display_map(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH]) {
 			frontbuf[i][j] = backbuf[i][j];
 		}
 	}
+}
+void display_map(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH]) {
+	project(map, backbuf);
+	change_map(18, 60, 0, 0, 0);// 게임 플레이 화면 변환
+	change_map(18, 101, 0, 61, 1); // 상태창 화면 변환
+	change_map(26, 60, 19, 0, 2); // 시스템 메시지 화면 창 변환
+	change_map(26, 101, 19, 61, 3);// 커멘드창 화면 변환 
+
+	
 }
 
 // frontbuf[][]에서 커서 위치의 문자를 색만 바꿔서 그대로 다시 출력
@@ -234,6 +267,9 @@ void display_cursor(CURSOR cursor) {
 				}
 				else if (ch == 'w') {
 					printc(padd(map_pos, prev), ch, 96);
+				}
+				else if (ch == ' ') {
+					printc(padd(map_pos, prev), ch, 238);
 				}
 				else {
 					printc(padd(map_pos, prev), ch, COLOR_DEFAULT);

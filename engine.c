@@ -398,7 +398,7 @@ void display_sys_message() {
 	POSITION SYS_2 = { 23, 2 };
 	POSITION SYS_3 = { 22, 2 };
 	POSITION SYS_4 = { 21, 2 };
-	set_color(7);
+	set_color(112);
 		gotoxy(SYS_0);
 		printf("%s", curr_sys_cammand_message[0]);
 		gotoxy(SYS_1);
@@ -413,6 +413,10 @@ void display_sys_message() {
 
 void init(void) {
 	// layer 0(map[0])에 지형 생성
+
+	
+
+
 	for (int j = 0; j < GAME_WIDTH; j++) {
 		map[0][0][j] = '#';
 		map[0][GAME_HEIGHT - 1][j] = '#';
