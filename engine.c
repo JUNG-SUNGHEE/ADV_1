@@ -635,13 +635,13 @@ void display_status_message() {// 만약 내가 하베스터를 선택한 상태
 	gotoxy(side_pos_blue);
 	printf("            ");
 	switch (select_unit_address->is_it_my_side_flag) {
-	case 1: 
+	case 0: 
 		gotoxy(side_pos_red);
 		set_color(116); 
 		printf("하코넨");  
 
-		break;// 정말 이상함 이거 반대로 해야 제대로 돌아감
-	case 0: 
+		break;
+	case 1: 
 		gotoxy(side_pos_blue);
 		set_color(113); 
 		printf("아트레이디스");  
@@ -946,18 +946,18 @@ void init(void) {
 	insertfrontnode_pre(W, pre_unit_pos_W, 2);
 	insertfrontnode_pre(W, pre_unit_pos_W_2, 2);
 
-	insertfrontnode_pre(BASE_BLUE, pre_struct_pos_blue_base, 0);// 지금은 초기 배치니까 위치는 내가 직접입력 pos 하나만
-	insertfrontnode_pre(PLATE_BLUE, pre_struct_pos_blue_plate, 0);
+	insertfrontnode_pre(BASE_BLUE, pre_struct_pos_blue_base, 1);// 지금은 초기 배치니까 위치는 내가 직접입력 pos 하나만
+	insertfrontnode_pre(PLATE_BLUE, pre_struct_pos_blue_plate, 1);
 
-	insertfrontnode_pre(BASE_RED, pre_struct_pos_red_base, 1);
-	insertfrontnode_pre(PLATE_RED, pre_struct_pos_red_plate, 1);
+	insertfrontnode_pre(BASE_RED, pre_struct_pos_red_base, 0);
+	insertfrontnode_pre(PLATE_RED, pre_struct_pos_red_plate, 0);
 
 	insertfrontnode_pre(SPICE, pre_struct_pos_blue_spice, 2);
 	insertfrontnode_pre(SPICE, pre_struct_pos_red_spice, 2);
 	
-	insertfrontnode_pre(h, pre_unit_pos_h, 1);
+	insertfrontnode_pre(h, pre_unit_pos_h, 0);
 
-	insertfrontnode_pre(H, pre_unit_pos_H, 0);
+	insertfrontnode_pre(H, pre_unit_pos_H, 1);
 	
 
 
