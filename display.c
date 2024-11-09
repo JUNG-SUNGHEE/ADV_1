@@ -102,7 +102,7 @@ const POSITION resource_pos = { 0, 0 };
 
 const POSITION map_pos = { 1, 0 };
 
-void what_is_it(int, int);
+//void what_is_it(int, int);
 
 char backbuf[MAP_HEIGHT][MAP_WIDTH] = { 0 };
 char frontbuf[MAP_HEIGHT][MAP_WIDTH] = { 0 };
@@ -120,7 +120,8 @@ void display(RESOURCE resource, char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], CURSOR
 	display_resource(resource);
 	display_map(map);
 	display_cursor(cursor);
-
+    
+	display_status_message();
 	// display_system_message()
 	// display_object_info()
 	// display_commands()
@@ -196,6 +197,7 @@ void change_map(int hight_f, int width_f, int hight_s, int width_s, int display_
 						printc(padd(map_pos, pos), backbuf[i][j], 112);
 						break;
 					}
+					
 
 				}
 				else if (backbuf[i][j] == '#') {
@@ -211,6 +213,39 @@ void change_map(int hight_f, int width_f, int hight_s, int width_s, int display_
 						break;
 					}
 				}
+
+				else if (backbuf[i][j] == 'Q') {
+					printc(padd(map_pos, pos), backbuf[i][j], 0);
+				}
+				else if (backbuf[i][j] == 'C') {
+					printc(padd(map_pos, pos), backbuf[i][j], 34);
+				}
+				else if (backbuf[i][j] == 'E') {
+					printc(padd(map_pos, pos), backbuf[i][j], 85);
+				}
+				else if (backbuf[i][j] == 'T') {
+					printc(padd(map_pos, pos), backbuf[i][j], 102);
+				}
+				else if (backbuf[i][j] == 'Y') {
+					printc(padd(map_pos, pos), backbuf[i][j], 255);
+				}
+				else if (backbuf[i][j] == 'U') {
+					printc(padd(map_pos, pos), backbuf[i][j], 119);
+				}
+				else if (backbuf[i][j] == 'I') {
+					printc(padd(map_pos, pos), backbuf[i][j], 153);
+				}
+				else if (backbuf[i][j] == 'O') {
+					printc(padd(map_pos, pos), backbuf[i][j], 187);
+				}
+				else if (backbuf[i][j] == 'A') {
+					printc(padd(map_pos, pos), backbuf[i][j], 221);
+				}
+				else if (backbuf[i][j] == 'M') {
+					printc(padd(map_pos, pos), backbuf[i][j], 238);
+				}
+
+
 				else {
 					printc(padd(map_pos, pos), backbuf[i][j], COLOR_DEFAULT);
 				}
@@ -286,12 +321,12 @@ void display_cursor(CURSOR cursor) {
 	printc(padd(map_pos, curr), ch, COLOR_CURSOR);
 	//gotoxy(A);
 	//printf("%d %d", curr.row, curr.column); 
-	what_is_it(curr.row, curr.column);
+	/////////what_is_it(curr.row, curr.column);
 
 	//select_cursor.row = curr.row;
 	//select_cursor.column = curr.column;
 }
-void show_struct_profile(UNIT_DATA UNIT) {
+/*void show_struct_profile(UNIT_DATA UNIT) {
 	gotoxy(STATUS_CAMP_POS);
 	printf("%s          ", UNIT.camp);
 	gotoxy(STATUS_NAME_POS);
@@ -307,10 +342,10 @@ void show_struct_profile(UNIT_DATA UNIT) {
 		gotoxy(COMMAND_POS);
 		printf("%s                ", UNIT.command);
 	}//스파이스도 표현 이런식으로하면 유닛까지 이걸로 표현가능// 좌표를 이용해서 공백출력으로 깔끔하게 다 지우자// 그럼 내용 없는애들 출력안해도됨
-}// esc는 그걸로 좌표로 이동 쫙 출력 좌표로 이동 쫙출력 이거 y길이 만큼하면 될듯
+ }*/// esc는 그걸로 좌표로 이동 쫙 출력 좌표로 이동 쫙출력 이거 y길이 만큼하면 될듯
 
 
-void what_is_it(int row, int column) {
+/*void what_is_it(int row, int column) {
 	POSITION A = { 0, 30 };
 	POSITION B = { 0, 40 };
 
@@ -385,7 +420,7 @@ void what_is_it(int row, int column) {
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Y_TX);
 			show_struct_profile(spice);
 		}
-	}
+	}*/
 
 
 

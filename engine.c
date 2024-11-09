@@ -15,7 +15,7 @@ node* select_unit_address = &a;
 int w_cnt = 0; //그냥 검사용
 POSITION A = { 0, 60 };// 그냥 검사용
 
-
+void display_status_message();
 void display_sys_message();
 char total_sys_message[20][200] = { 
 	"A new harvester ready", 
@@ -84,6 +84,16 @@ OBJECT_SAMPLE obj = {
 };
 
 OBJECT_SAMPLE H = {
+	.image = {
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','M','M','M','M'},
+	{'M','M','M','M','M','M','M','M','M','M','M','M','M','Q','M','M','M'},
+	{'M','M','M','M','U','U','M','M','M','M','M','M','M','Q','R','M','M'},
+	{'M','M','M','T','T','Q','T','U','U','U','U','U','U','U','R','T','T'},
+	{'T','T','T','T','T','T','U','U','U','U','R','R','R','R','R','R','T'},
+	{'T','T','R','R','R','R','U','U','U','U','R','R','R','R','R','R','R'},
+	{'T','Q','Q','Q','R','R','U','U','U','R','R','R','R','R','R','R','R'},
+	{'T','Q','Q','Q','U','U','T','T','T','T','T','T','T','T','T','T','T'}
+},
 	.pos = {14, 1},
 	.dest = {14, 1},//{5, 15},
 	.src = {14,1},
@@ -260,7 +270,7 @@ int main(void) {
 			case k_space: 
 				select_cursor = cursor.current; 
 				if (is_there_unit() != &a) {// is_there_unit에서 내가 선택한 위치에 유닛, 건물이 없으면 a의 주소를 반환함
-					select_unit_address = is_there_unit();
+					select_unit_address = is_there_unit();// 만약 내가 하베스터를 선택한 상태로 하베스터가 죽어서 free가 되면 없는걸 참조해서 출력하니 멈추려나
 				}
 
 				if (select_unit_address->allive_cmd[1] == 1) {
@@ -384,6 +394,164 @@ void outro(void) {
 	printf("마지막 스페이스바 위치 x = %d, y = %d", select_cursor.column, select_cursor.row);
 }*/
 
+
+void display_status_message() {// 만약 내가 하베스터를 선택한 상태로 하베스터가 죽어서 free가 되면 없는걸 참조해서 출력하니 멈추려나
+	POSITION image = { 1, 62 };
+	POSITION hp_pos = { 13, 70 };
+
+
+	//========== 이미지 출력 ==================================
+	map[0][1][62] = select_unit_address->image[0][0];// 이유를 모르겠다 배열로 하면 이상하게 출력된다....
+	map[0][1][63] = select_unit_address->image[0][1];
+	map[0][1][64] = select_unit_address->image[0][2];
+	map[0][1][65] = select_unit_address->image[0][3];
+	map[0][1][66] = select_unit_address->image[0][4];
+	map[0][1][67] = select_unit_address->image[0][5];
+	map[0][1][68] = select_unit_address->image[0][6];
+	map[0][1][69] = select_unit_address->image[0][7];
+	map[0][1][70] = select_unit_address->image[0][8];
+	map[0][1][71] = select_unit_address->image[0][9];
+	map[0][1][72] = select_unit_address->image[0][10];
+	map[0][1][73] = select_unit_address->image[0][11];
+	map[0][1][74] = select_unit_address->image[0][12];
+	map[0][1][75] = select_unit_address->image[0][13];
+	map[0][1][76] = select_unit_address->image[0][14];
+	map[0][1][77] = select_unit_address->image[0][15];
+	map[0][1][78] = select_unit_address->image[0][16];
+
+	map[0][2][62] = select_unit_address->image[1][0];
+	map[0][2][63] = select_unit_address->image[1][1];
+	map[0][2][64] = select_unit_address->image[1][2];
+	map[0][2][65] = select_unit_address->image[1][3];
+	map[0][2][66] = select_unit_address->image[1][4];
+	map[0][2][67] = select_unit_address->image[1][5];
+	map[0][2][68] = select_unit_address->image[1][6];
+	map[0][2][69] = select_unit_address->image[1][7];
+	map[0][2][70] = select_unit_address->image[1][8];
+	map[0][2][71] = select_unit_address->image[1][9];
+	map[0][2][72] = select_unit_address->image[1][10];
+	map[0][2][73] = select_unit_address->image[1][11];
+	map[0][2][74] = select_unit_address->image[1][12];
+	map[0][2][75] = select_unit_address->image[1][13];
+	map[0][2][76] = select_unit_address->image[1][14];
+	map[0][2][77] = select_unit_address->image[1][15];
+	map[0][2][78] = select_unit_address->image[1][16];
+
+	map[0][3][62] = select_unit_address->image[2][0];
+	map[0][3][63] = select_unit_address->image[2][1];
+	map[0][3][64] = select_unit_address->image[2][2];
+	map[0][3][65] = select_unit_address->image[2][3];
+	map[0][3][66] = select_unit_address->image[2][4];
+	map[0][3][67] = select_unit_address->image[2][5];
+	map[0][3][68] = select_unit_address->image[2][6];
+	map[0][3][69] = select_unit_address->image[2][7];
+	map[0][3][70] = select_unit_address->image[2][8];
+	map[0][3][71] = select_unit_address->image[2][9];
+	map[0][3][72] = select_unit_address->image[2][10];
+	map[0][3][73] = select_unit_address->image[2][11];
+	map[0][3][74] = select_unit_address->image[2][12];
+	map[0][3][75] = select_unit_address->image[2][13];
+	map[0][3][76] = select_unit_address->image[2][14];
+	map[0][3][77] = select_unit_address->image[2][15];
+	map[0][3][78] = select_unit_address->image[2][16];
+
+	map[0][4][62] = select_unit_address->image[3][0];
+	map[0][4][63] = select_unit_address->image[3][1];
+	map[0][4][64] = select_unit_address->image[3][2];
+	map[0][4][65] = select_unit_address->image[3][3];
+	map[0][4][66] = select_unit_address->image[3][4];
+	map[0][4][67] = select_unit_address->image[3][5];
+	map[0][4][68] = select_unit_address->image[3][6];
+	map[0][4][69] = select_unit_address->image[3][7];
+	map[0][4][70] = select_unit_address->image[3][8];
+	map[0][4][71] = select_unit_address->image[3][9];
+	map[0][4][72] = select_unit_address->image[3][10];
+	map[0][4][73] = select_unit_address->image[3][11];
+	map[0][4][74] = select_unit_address->image[3][12];
+	map[0][4][75] = select_unit_address->image[3][13];
+	map[0][4][76] = select_unit_address->image[3][14];
+	map[0][4][77] = select_unit_address->image[3][15];
+	map[0][4][78] = select_unit_address->image[3][16];
+
+	map[0][5][62] = select_unit_address->image[4][0];
+	map[0][5][63] = select_unit_address->image[4][1];
+	map[0][5][64] = select_unit_address->image[4][2];
+	map[0][5][65] = select_unit_address->image[4][3];
+	map[0][5][66] = select_unit_address->image[4][4];
+	map[0][5][67] = select_unit_address->image[4][5];
+	map[0][5][68] = select_unit_address->image[4][6];
+	map[0][5][69] = select_unit_address->image[4][7];
+	map[0][5][70] = select_unit_address->image[4][8];
+	map[0][5][71] = select_unit_address->image[4][9];
+	map[0][5][72] = select_unit_address->image[4][10];
+	map[0][5][73] = select_unit_address->image[4][11];
+	map[0][5][74] = select_unit_address->image[4][12];
+	map[0][5][75] = select_unit_address->image[4][13];
+	map[0][5][76] = select_unit_address->image[4][14];
+	map[0][5][77] = select_unit_address->image[4][15];
+	map[0][5][78] = select_unit_address->image[4][16];
+
+	map[0][6][62] = select_unit_address->image[5][0];
+	map[0][6][63] = select_unit_address->image[5][1];
+	map[0][6][64] = select_unit_address->image[5][2];
+	map[0][6][65] = select_unit_address->image[5][3];
+	map[0][6][66] = select_unit_address->image[5][4];
+	map[0][6][67] = select_unit_address->image[5][5];
+	map[0][6][68] = select_unit_address->image[5][6];
+	map[0][6][69] = select_unit_address->image[5][7];
+	map[0][6][70] = select_unit_address->image[5][8];
+	map[0][6][71] = select_unit_address->image[5][9];
+	map[0][6][72] = select_unit_address->image[5][10];
+	map[0][6][73] = select_unit_address->image[5][11];
+	map[0][6][74] = select_unit_address->image[5][12];
+	map[0][6][75] = select_unit_address->image[5][13];
+	map[0][6][76] = select_unit_address->image[5][14];
+	map[0][6][77] = select_unit_address->image[5][15];
+	map[0][6][78] = select_unit_address->image[5][16];
+
+	map[0][7][62] = select_unit_address->image[6][0];
+	map[0][7][63] = select_unit_address->image[6][1];
+	map[0][7][64] = select_unit_address->image[6][2];
+	map[0][7][65] = select_unit_address->image[6][3];
+	map[0][7][66] = select_unit_address->image[6][4];
+	map[0][7][67] = select_unit_address->image[6][5];
+	map[0][7][68] = select_unit_address->image[6][6];
+	map[0][7][69] = select_unit_address->image[6][7];
+	map[0][7][70] = select_unit_address->image[6][8];
+	map[0][7][71] = select_unit_address->image[6][9];
+	map[0][7][72] = select_unit_address->image[6][10];
+	map[0][7][73] = select_unit_address->image[6][11];
+	map[0][7][74] = select_unit_address->image[6][12];
+	map[0][7][75] = select_unit_address->image[6][13];
+	map[0][7][76] = select_unit_address->image[6][14];
+	map[0][7][77] = select_unit_address->image[6][15];
+	map[0][7][78] = select_unit_address->image[6][16];
+
+	map[0][8][62] = select_unit_address->image[7][0];
+	map[0][8][63] = select_unit_address->image[7][1];
+	map[0][8][64] = select_unit_address->image[7][2];
+	map[0][8][65] = select_unit_address->image[7][3];
+	map[0][8][66] = select_unit_address->image[7][4];
+	map[0][8][67] = select_unit_address->image[7][5];
+	map[0][8][68] = select_unit_address->image[7][6];
+	map[0][8][69] = select_unit_address->image[7][7];
+	map[0][8][70] = select_unit_address->image[7][8];
+	map[0][8][71] = select_unit_address->image[7][9];
+	map[0][8][72] = select_unit_address->image[7][10];
+	map[0][8][73] = select_unit_address->image[7][11];
+	map[0][8][74] = select_unit_address->image[7][12];
+	map[0][8][75] = select_unit_address->image[7][13];
+	map[0][8][76] = select_unit_address->image[7][14];
+	map[0][8][77] = select_unit_address->image[7][15];
+	map[0][8][78] = select_unit_address->image[7][16];
+	//=========  이미지 출력 끝==========================
+	// 이미지주변에 구분선을 추가하자 #넣은 흰색으로하자
+
+	gotoxy(hp_pos);
+	printf("-----%c----", select_unit_address->repr);
+}
+
+
 void insert_sys_message(int select_cammand) {
 	for (int i = 0; i < 5; i++) {
 		strcpy_s(curr_sys_cammand_message[5 - i], sizeof(curr_sys_cammand_message[i]), curr_sys_cammand_message[5 - i - 1]);
@@ -454,6 +622,13 @@ void init(void) {
 		}
 		for (int j = 1; j < GAME_WIDTH - 1; j++) {
 			map[0][GAME_HEIGHT + 1 + i][j] = ' ';
+		}
+
+		for (int i = 1; i <= 8; i++) {
+			map[0][i][79] = '#';
+		}
+		for (int i = 62; i <= 79; i++) {
+			map[0][9][i] = '#';
 		}
 	}
 
@@ -551,6 +726,11 @@ void insertfrontnode_pre(OBJECT_SAMPLE unit_sort, POSITION pre_pos, int side) {
 
 	newnode->size = unit_sort.size;
 	newnode->rest_spice = unit_sort.rest_spice;
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 17; j++) {
+			newnode->image[i][j] = unit_sort.image[i][j];
+		}
+	}
 
 	for (int i = 0; i < 10; i++) {
 		newnode->possible_cmd[i] = unit_sort.possible_cmd[i];// 0: 정지 // 1:(H) 하베스터 채굴 // 2:(M) move // 3:(P) 순찰 // 4:(H) 하베스터 생산
@@ -922,6 +1102,12 @@ void insertfrontnode(OBJECT_SAMPLE unit_sort)
 	newnode->cmd_flag_move = unit_sort.cmd_flag_move;
 
 	newnode->size = unit_sort.size;
+
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 17; j++) {
+			newnode->image[i][j] = unit_sort.image[i][j];
+		}
+	}
 
 	for (int i = 0; i < 10; i++) {
 		newnode->possible_cmd[i] = unit_sort.possible_cmd[i];//0:(H) 하베스터 채굴 / 1:(M) move / 2:(P) 순찰    //    3:(H) 하베스터 생산 // 정지 명령도 만들자

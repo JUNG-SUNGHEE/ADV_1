@@ -122,6 +122,8 @@ typedef struct {
 
 	int size;
 	int rest_spice;
+
+	char image[8][17];
 } OBJECT_SAMPLE;
 
 
@@ -155,6 +157,8 @@ typedef struct node
 
 	int size;//건물용
 	int rest_spice;//남은 스파이스양
+
+	char image[8][17];
 	
 	struct node* next;
 }node;
