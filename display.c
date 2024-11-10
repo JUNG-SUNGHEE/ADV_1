@@ -38,6 +38,7 @@ void display(RESOURCE resource, char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], CURSOR
 	display_cursor(cursor);
     
 	display_status_message();
+	display_command_message();
 	// display_system_message()
 	// display_object_info()
 	// display_commands()

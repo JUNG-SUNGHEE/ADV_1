@@ -26,7 +26,10 @@ int w_cnt = 0; //그냥 검사용
 POSITION A = { 0, 60 };// 그냥 검사용
 
 void display_status_message();
+void display_command_message();
 void display_sys_message();
+
+
 char total_sys_message[20][200] = { 
 	"A new harvester ready", 
 	"Not enough spice"
@@ -82,7 +85,7 @@ RESOURCE resource = {
 	.spice = 100,
 	.spice_max = 1000,
 	.population = 0,
-	.population_max = 0
+	.population_max = 100
 };
 
 OBJECT_SAMPLE obj = {
@@ -437,6 +440,7 @@ int main(void) {
 					if (resource.spice >= H.cost) {
 						insert_sys_message(0);
 						resource.spice -= H.cost;
+						resource.population += H.population;
 						//여기다 시스템 메시지 출력 기능넣을까? 이미 조건은 갖춰져있는데
 						//배열로 만들어볼까 이차원배열로 하면 쌉가능 일단 분리먼저
 						insertfrontnode(H); break;
@@ -453,11 +457,11 @@ int main(void) {
 
 			case k_move_m: 
 				resource.spice += 5;
-				if (select_unit_address->possible_cmd[2] == 1) {
+				/*if (select_unit_address->possible_cmd[2] == 1) {
 					select_unit_address->allive_cmd[0] = 0;
 					select_unit_address->allive_cmd[1] = 0;
 					select_unit_address->allive_cmd[2] = 1;
-				}break;
+				}break;*/
 				// 멈추기 키도 만들어야함// 멈추기 키는 그냥 모든 명령이 끝난뒤에 패시브임 따로 키를 만들필요는 없을듯
 				
 				// 아니지 여기선 가능한 커멘드 플래그중 어느게 활성화 될지만 정해지고 함수 호출은 다른데서 해야지 예로 반복 움직임이 키보드를 누를때만
@@ -538,7 +542,49 @@ void outro(void) {
 	printf("마지막 스페이스바 위치 x = %d, y = %d", select_cursor.column, select_cursor.row);
 }*/
 
+void display_command_message() {
+		POSITION command_pos = { 21, 63 };
+		POSITION command_pos_2 = { 22, 63 };
+		POSITION command_pos_3 = { 23, 63 };
+		POSITION command_pos_4 = { 24, 63 };
+		POSITION command_pos_5 = { 25, 63 };
 
+		set_color(112);
+
+		gotoxy(command_pos);
+		printf("                                  ");
+		gotoxy(command_pos_2);
+		printf("                                  ");
+		gotoxy(command_pos_3);
+		printf("                                  ");
+		gotoxy(command_pos_4);
+		printf("                                  ");
+		gotoxy(command_pos_5);
+		printf("                                  ");
+
+		gotoxy(command_pos);
+		switch (select_unit_address->repr) {
+		case 'B':
+			printf("H : 하베스터 생산            ");
+			gotoxy(command_pos_2);
+			printf("비용: 5  인구수: 5           ");
+			break;
+		case 'H':
+			printf("T : 이동                     ");
+			gotoxy(command_pos_2);
+			printf("하베스터 선택 -> T를 누르고 원하는");
+			gotoxy(command_pos_3);
+			printf("위치 선택 ->이후론 T없이");
+			gotoxy(command_pos_4);
+			printf("원하는 위치 선택으로 이동");
+			break;
+		default :
+			printf("사용가능한 명령이 없습니다. ");
+			break;
+		}
+		gotoxy(command_pos_5);
+		printf("M : 스파이스 5 증가(테스트용)    ");
+}
 void display_status_message() {// 만약 내가 하베스터를 선택한 상태로 하베스터가 죽어서 free가 되면 없는걸 참조해서 출력하니 멈추려나
 	POSITION side_pos_blue = {2, 84};
 	POSITION side_pos_red = { 2, 87 };
@@ -594,7 +640,6 @@ void display_status_message() {// 만약 내가 하베스터를 선택한 상태
 	printf("%d", select_unit_address->as);
 	gotoxy(UNIT_Vision_POS);
 	printf("%d", select_unit_address->speed);
-
 
 
 	set_color(112);
