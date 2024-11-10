@@ -568,6 +568,11 @@ void display_command_message() {
 			printf("H : 하베스터 생산            ");
 			gotoxy(command_pos_2);
 			printf("비용: 5  인구수: 5           ");
+			gotoxy(command_pos_3);
+			printf("같은 위치에서 생산, 이동시");
+			gotoxy(command_pos_4);
+			printf("키면 생산기능확인편합니다.");
+		// 설명을 위에 남는 공간에 추가하자
 			break;
 		case 'H':
 			printf("T : 이동                     ");
@@ -1275,6 +1280,7 @@ void eat_unit(int row, int column) {// 맵에 유닛이 없을때 웜때문에 �
 		head = head->next;
 		map[1][row][column] = -1;
 		free(delnode);
+		select_unit_address = &a;
 		return;
 	}
 
@@ -1287,6 +1293,7 @@ void eat_unit(int row, int column) {// 맵에 유닛이 없을때 웜때문에 �
 			prevnode->next = delnode->next;
 			map[1][row][column] = -1;
 			free(delnode);
+			select_unit_address = &a;
 			return;
 		}
 		prevnode = delnode;
