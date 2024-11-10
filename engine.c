@@ -549,6 +549,13 @@ void display_command_message() {
 		POSITION command_pos_4 = { 24, 63 };
 		POSITION command_pos_5 = { 25, 63 };
 
+		POSITION command_account_pos = {12, 63};
+		POSITION command_account_pos_1 = { 13, 63 };
+		POSITION command_account_pos_2 = { 14, 63 };
+		POSITION command_account_pos_3 = { 15, 63 };
+		POSITION command_account_pos_4 = { 16, 63 };
+		POSITION command_account_pos_5 = { 17, 63 };
+
 		set_color(112);
 
 		gotoxy(command_pos);
@@ -562,26 +569,53 @@ void display_command_message() {
 		gotoxy(command_pos_5);
 		printf("                                  ");
 
+		gotoxy(command_account_pos);
+		printf("              ");
+		gotoxy(command_account_pos_1);
+		printf("                                  ");
+		gotoxy(command_account_pos_2);
+		printf("                                  ");
+		gotoxy(command_account_pos_3);
+		printf("                                  ");
+		gotoxy(command_account_pos_4);
+		printf("                                  ");
+		gotoxy(command_account_pos_5);
+		printf("                                  ");
+		
+
 		gotoxy(command_pos);
 		switch (select_unit_address->repr) {
 		case 'B':
 			printf("H : 하베스터 생산            ");
 			gotoxy(command_pos_2);
 			printf("비용: 5  인구수: 5           ");
-			gotoxy(command_pos_3);
-			printf("같은 위치에서 생산, 이동시");
-			gotoxy(command_pos_4);
-			printf("키면 생산기능확인편합니다.");
+
+			gotoxy(command_account_pos);
+			printf("명령 설명");
+			gotoxy(command_account_pos_1);
+			printf("유닛은 같은 위치에서 생산됩니다");
+			gotoxy(command_account_pos_2);
+			printf("유닛을 이동시키고 생산하면");
+			gotoxy(command_account_pos_3);
+			printf("생산기능 확인이 편합니다");
 		// 설명을 위에 남는 공간에 추가하자
 			break;
 		case 'H':
 			printf("T : 이동                     ");
-			gotoxy(command_pos_2);
-			printf("하베스터 선택 -> T를 누르고 원하는");
-			gotoxy(command_pos_3);
-			printf("위치 선택 ->이후론 T없이");
-			gotoxy(command_pos_4);
-			printf("원하는 위치 선택으로 이동");
+
+			gotoxy(command_account_pos);
+			printf("명령 설명");
+			gotoxy(command_account_pos_1);
+			printf("1.하베스터 선택하고 T누르기");
+			gotoxy(command_account_pos_2);
+			printf("2.원하는 도착지 선택하면 이동");
+			gotoxy(command_account_pos_3);
+			printf("3.그 이후론 T누르지 않고도");
+			gotoxy(command_account_pos_4);
+			printf("3.유닛선택된 상태로");
+			gotoxy(command_account_pos_5);
+			printf("3.도착지 누르면 이동");
+
 			break;
 		default :
 			printf("사용가능한 명령이 없습니다. ");
