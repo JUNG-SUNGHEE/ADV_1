@@ -8,7 +8,17 @@
 #include "display.h"
 
 int cnt = 0;//유닛 넘버링 용
-node a;//그 아무의미 없는 리턴용
+node a = { .is_it_my_side_flag =3, .image = {
+	{'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'},
+	{'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'},
+	{'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'},
+	{'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'},
+	{'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'},
+	{'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'},
+	{'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'},
+	{'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'}
+} 
+};//esc나 아무의미없는 주소 리턴용
 node* select_unit_address = &a;
 
 
@@ -417,7 +427,7 @@ int main(void) {
 				esc_switch = 0; 
 				break;//select_flag는 좋은데 꼭 필요한진 모르겠다.
 			
-			case k_esc: esc_switch = 1; break;// is_there_unit이 주소를 리턴하게 하면 많은것을 할수있다. 이걸로 프로필 출력도 하자. 
+			case k_esc: esc_switch = 1; select_unit_address = &a; break;// is_there_unit이 주소를 리턴하게 하면 많은것을 할수있다. 이걸로 프로필 출력도 하자. 
 
 			case k_make_and_har_h: 
 				if (select_unit_address->repr == 'B') {
@@ -650,6 +660,11 @@ void display_status_message() {// 만약 내가 하베스터를 선택한 상태
 		gotoxy(side_pos_yellow);
 		set_color(118); 
 		printf("중립");
+		break;
+	case 3:
+		gotoxy(side_pos_yellow);
+		set_color(118);
+		printf("            ");
 		break;
 	}
 
