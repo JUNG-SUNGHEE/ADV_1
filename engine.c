@@ -31,8 +31,11 @@ void display_sys_message();
 
 
 char total_sys_message[20][200] = { 
-	"A new harvester ready", 
-	"Not enough spice"
+	"A new harvester ready         ", 
+	"Not enough spice             ",
+	"아군이 웜에게 당했습니다.    ",
+	"인구 수용량이 부족합니다.     ",
+	"Show me the spice"
 };
 char curr_sys_cammand_message[6][200];
 
@@ -57,13 +60,13 @@ void outro(void);
 //void show_what_is_it(void);
 void cursor_move(DIRECTION dir);
 int fast_move(DIRECTION dir, int sys_clock);
-void sample_obj_move(void);
+//void sample_obj_move(void);
 
 node* is_there_unit(void);// 커서선택 위치에 있는 유닛을 보여주는 함수/ 링크드 리스트 순회
 
 void total_object_move(void);
 
-POSITION sample_obj_next_position(void);
+//POSITION sample_obj_next_position(void);
 POSITION total_object_next_position(node*);
 /////////////////////////
 
@@ -82,19 +85,19 @@ char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH] = { 0 };
 
 
 RESOURCE resource = {
-	.spice = 100,
-	.spice_max = 1000,
+	.spice = 10,
+	.spice_max = 100,
 	.population = 0,
 	.population_max = 100
 };
 
-OBJECT_SAMPLE obj = {
+/*OBJECT_SAMPLE obj = {
 	.pos = {1, 1},
 	.dest = {GAME_HEIGHT - 5, GAME_WIDTH - 20},
 	.repr = 'o',
 	.speed = 300,
 	.next_move_time = 300
-};
+};*/
 
 OBJECT_SAMPLE H = {
 	.image = {
@@ -434,10 +437,15 @@ int main(void) {
 
 			case k_make_and_har_h: 
 				if (select_unit_address->repr == 'B') {
-					if (resource.spice < H.cost) {
-						insert_sys_message(1);// 여기다가 함수 넣어주자 시스템 메시지
+					if (resource.spice < H.cost || resource.population + H.population > resource.population_max) {
+						if (resource.spice < H.cost) {
+							insert_sys_message(1);
+						}
+						else {
+							insert_sys_message(3);
+						}
 					}
-					if (resource.spice >= H.cost) {
+					if (resource.spice >= H.cost && resource.population + H.population <= resource.population_max) {
 						insert_sys_message(0);
 						resource.spice -= H.cost;
 						resource.population += H.population;
@@ -455,8 +463,12 @@ int main(void) {
 				} break;// 아직 완벽하게는 안됨
 
 
-			case k_move_m: 
-				resource.spice += 5;
+			case k_move_m:
+				if (resource.spice_max >= resource.spice + 5) {
+					resource.spice += 5;
+					insert_sys_message(4);
+				}
+				
 				/*if (select_unit_address->possible_cmd[2] == 1) {
 					select_unit_address->allive_cmd[0] = 0;
 					select_unit_address->allive_cmd[1] = 0;
@@ -483,7 +495,7 @@ int main(void) {
 		}
 
 		// 샘플 오브젝트 동작
-		sample_obj_move();
+		//sample_obj_move();
 		total_object_move();
 		
 
@@ -1016,10 +1028,7 @@ void init(void) {
 			map[1][i][j] = -1;
 		}
 	}
-
-	// object sample
-	map[1][obj.pos.row][obj.pos.column] = 'o';
-
+	resource.population += H.population;
 
 	// layer 0(map[0])에 건물넣기 일단 아스키 코드로
 	POSITION pre_struct_pos_blue_base = { 15, 1 };
@@ -1200,63 +1209,7 @@ void cursor_move(DIRECTION dir) {
 	}
 }
 
-/* ================= sample object movement =================== */
-POSITION sample_obj_next_position(void) {
-	// 현재 위치와 목적지를 비교해서 이동 방향 결정	
-	POSITION diff = psub(obj.dest, obj.pos);
-	DIRECTION dir;
 
-	// 목적지 도착. 지금은 단순히 원래 자리로 왕복
-	if (diff.row == 0 && diff.column == 0) {
-		if (obj.dest.row == 1 && obj.dest.column == 1) {
-			// topleft --> bottomright로 목적지 설정
-			POSITION new_dest = { GAME_HEIGHT - 2, GAME_WIDTH - 2 };
-			obj.dest = new_dest;
-		}
-		else {
-			// bottomright --> topleft로 목적지 설정
-			POSITION new_dest = { 1, 1 };
-			obj.dest = new_dest;
-		}
-		return obj.pos;
-	}
-
-	// 가로축, 세로축 거리를 비교해서 더 먼 쪽 축으로 이동
-	if (abs(diff.row) >= abs(diff.column)) {
-		dir = (diff.row >= 0) ? d_down : d_up;
-	}
-	else {
-		dir = (diff.column >= 0) ? d_right : d_left;
-	}
-
-	// validation check
-	// next_pos가 맵을 벗어나지 않고, (지금은 없지만)장애물에 부딪히지 않으면 다음 위치로 이동
-	// 지금은 충돌 시 아무것도 안 하는데, 나중에는 장애물을 피해가거나 적과 전투를 하거나... 등등
-	POSITION next_pos = pmove(obj.pos, dir);
-	if (1 <= next_pos.row && next_pos.row <= GAME_HEIGHT - 2 && \
-		1 <= next_pos.column && next_pos.column <= GAME_WIDTH - 2 && \
-		map[1][next_pos.row][next_pos.column] < 0) {
-
-		return next_pos;
-	}
-	else {
-		return obj.pos;  // 제자리
-	}
-}
-
-void sample_obj_move(void) {
-	if (sys_clock <= obj.next_move_time) {
-		// 아직 시간이 안 됐음
-		return;
-	}
-
-	// 오브젝트(건물, 유닛 등)은 layer1(map[1])에 저장
-	map[1][obj.pos.row][obj.pos.column] = -1;
-	obj.pos = sample_obj_next_position();
-	map[1][obj.pos.row][obj.pos.column] = obj.repr;
-
-	obj.next_move_time = sys_clock + obj.speed;
-}
 
 double distance(POSITION p1, POSITION p2) {
 	return sqrt(pow(p2.column - p1.column, 2) + pow(p2.row - p1.row, 2));
@@ -1317,9 +1270,15 @@ int eat_unit(int row, int column) {
 			return 1;
 		}
 		else {
+			if (delnode->is_it_my_side_flag == 1 && delnode->is_it_structure_flag == 1) {
+				insert_sys_message(2);
+				resource.population -= delnode->population;
+			}
 			map[1][row][column] = -1;
 			free(delnode);
 			select_unit_address = &a;
+			
+			//// 여기다가 시스템 메시지 조건 내팀 맞음? 으로해서 맞으면 죽었다
 		}
 		return;
 	}
@@ -1335,9 +1294,14 @@ int eat_unit(int row, int column) {
 				return 1;
 			}
 			else {
+				if (delnode->is_it_my_side_flag == 1 && delnode->is_it_structure_flag == 1) {
+					insert_sys_message(2);
+					resource.population -= delnode->population;
+				}
 				map[1][row][column] = -1;
 				free(delnode);
 				select_unit_address = &a;
+				
 			}
 			return;
 		}
