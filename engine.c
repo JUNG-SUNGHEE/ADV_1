@@ -1276,8 +1276,12 @@ int eat_unit(int row, int column) {
 				resource.population -= delnode->population;
 			}
 			map[1][row][column] = -1;
+			if (select_unit_address->repr == delnode->repr) {
+				select_unit_address = &a;
+			}
 			free(delnode);
-			select_unit_address = &a;
+			
+		
 			
 			//// 여기다가 시스템 메시지 조건 내팀 맞음? 으로해서 맞으면 죽었다
 		}
@@ -1300,8 +1304,10 @@ int eat_unit(int row, int column) {
 					resource.population -= delnode->population;
 				}
 				map[1][row][column] = -1;
+				if (select_unit_address->repr == delnode->repr) {
+					select_unit_address = &a;
+				}
 				free(delnode);
-				select_unit_address = &a;
 				
 			}
 			return;
