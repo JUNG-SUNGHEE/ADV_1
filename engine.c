@@ -1175,7 +1175,7 @@ void insertfrontnode_pre(OBJECT_SAMPLE unit_sort, POSITION pre_pos, int side) {
 
  int fast_move(DIRECTION dir, int sys_clock) {
 	int TorF = 0;
-	if (sys_clock - last_clock < 80 && (last_clock + 10 != sys_clock)) {//last_clock + 10 != sys_clock 요거 작동안함 용도는 연속으로 같은키들어오면 그건 한칸씩이동 
+	if (sys_clock - last_clock < 120 && (last_clock + 10 != sys_clock)) {//last_clock + 10 != sys_clock 요거 작동안함 용도는 연속으로 같은키들어오면 그건 한칸씩이동 
 		if (last_dir == dir ) {
 			TorF = 1;
 		}
