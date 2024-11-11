@@ -1,4 +1,5 @@
-﻿#include <stdlib.h>
+﻿//1~5 전부 구현 완료 (보너스제외)
+#include <stdlib.h>
 #include <time.h>
 #include <assert.h>
 #include <math.h>
