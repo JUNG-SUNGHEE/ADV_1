@@ -40,7 +40,7 @@ extern node* head;
 void insertfrontnode(OBJECT_SAMPLE);
 void insertfrontnode_pre(OBJECT_SAMPLE, POSITION, int);
 void poop(int, int);
-void eat_unit(int, int);
+int eat_unit(int, int);
 
 void insert_sys_message(int);
 
@@ -1138,6 +1138,7 @@ void insertfrontnode_pre(OBJECT_SAMPLE unit_sort, POSITION pre_pos, int side) {
 			for (int i = 0; i < newnode->size; i++) {
 				for (int j = 0; j < newnode->size; j++) {
 					map[0][newnode->pos.row + i][newnode->pos.column + j] = newnode->repr;
+					map[1][newnode->pos.row + i][newnode->pos.column + j] = newnode->repr;// 이렇게 하면 일단 몹들이 벽뚫는거 고쳐져서 편하긴한데 나중에 건물 파괴되면 map0, 1둘다 지워줘야함
 				}
 			}
 		}
@@ -1302,7 +1303,7 @@ void poop(int column, int row) {
 		}
 }
 
-void eat_unit(int row, int column) {// 맵에 유닛이 없을때 웜때문에 강제 종료됨
+int eat_unit(int row, int column) {
 	node* delnode;// 삭제할 노드 주소 저장
 	node* prevnode;// 삭제할 이전 노드의 주소 저장
 	if (head == NULL) {
@@ -1312,9 +1313,14 @@ void eat_unit(int row, int column) {// 맵에 유닛이 없을때 웜때문에 �
 	if (head->pos.column == column && head->pos.row == row) {
 		delnode = head;
 		head = head->next;
-		map[1][row][column] = -1;
-		free(delnode);
-		select_unit_address = &a;
+		if (delnode->is_it_structure_flag == 0) {
+			return 1;
+		}
+		else {
+			map[1][row][column] = -1;
+			free(delnode);
+			select_unit_address = &a;
+		}
 		return;
 	}
 
@@ -1325,9 +1331,14 @@ void eat_unit(int row, int column) {// 맵에 유닛이 없을때 웜때문에 �
 
 		if (delnode->pos.column == column && delnode->pos.row == row) {
 			prevnode->next = delnode->next;
-			map[1][row][column] = -1;
-			free(delnode);
-			select_unit_address = &a;
+			if (delnode->is_it_structure_flag == 0) {
+				return 1;
+			}
+			else {
+				map[1][row][column] = -1;
+				free(delnode);
+				select_unit_address = &a;
+			}
 			return;
 		}
 		prevnode = delnode;
@@ -1396,20 +1407,19 @@ POSITION total_object_next_position(node* curnode) {
 	
 	
 	if (curnode->repr == 'W' && map[1][next_pos.row][next_pos.column] != -1) {
-		
-		eat_unit(next_pos.row, next_pos.column);
+		//if(){next_pos = curnode->pos}
+		if (eat_unit(next_pos.row, next_pos.column) == 1) {
+			next_pos.row = curnode->pos.row;
+			next_pos.column = curnode->pos.column;
+		}
 			
-		
-			//내용
-			
-	//	}
 	}
 
 
 
 	if (1 <= next_pos.row && next_pos.row <= GAME_HEIGHT - 2 && \
 		1 <= next_pos.column && next_pos.column <= GAME_WIDTH - 2 && \
-		map[1][next_pos.row][next_pos.column] < 0) {
+		map[1][next_pos.row][next_pos.column] < 0 ) {
 		return next_pos;
 	}
 	else {
