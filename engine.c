@@ -431,10 +431,14 @@ int main(void) {
 					//select_unit_address->allive_cmd[1] = 0;
 					//select_unit_address->allive_cmd[0] = 1;// allive_cmd[0] 이 1이면 정지를 의미함
 				} 
-				esc_switch = 0; 
+				esc_switch = 0;
+				b_switch = 0;
 				break;//select_flag는 좋은데 꼭 필요한진 모르겠다.
 			
-			case k_esc: esc_switch = 1; select_unit_address = &a; break;// is_there_unit이 주소를 리턴하게 하면 많은것을 할수있다. 이걸로 프로필 출력도 하자. 
+			case k_esc: esc_switch = 1;
+				select_unit_address = &a;
+				b_switch = 0;
+				break;// is_there_unit이 주소를 리턴하게 하면 많은것을 할수있다. 이걸로 프로필 출력도 하자. 
 
 			case k_make_and_har_h: 
 				if (select_unit_address->repr == 'B') {
@@ -463,6 +467,11 @@ int main(void) {
 					select_unit_address->allive_cmd[2] = 0;
 				} break;// 아직 완벽하게는 안됨
 
+			case k_build:
+				b_switch = 1;
+				esc_switch = 1;
+				select_unit_address = &a;
+				break;
 
 			case k_move_m:
 				if (resource.spice_max >= resource.spice + 5) {
@@ -597,45 +606,57 @@ void display_command_message() {
 		
 
 		gotoxy(command_pos);
-		switch (select_unit_address->repr) {
-		case 'B':
-			printf("H : 하베스터 생산            ");
+		if (b_switch == 1) {
+			printf("B : 본진   P : 장판");
 			gotoxy(command_pos_2);
-			printf("비용: 5  인구수: 5           ");
+			printf("D : 숙소   G : 창고");
+			gotoxy(command_pos_3);
+			printf("B : 병영   S : 은신처");
 
-			gotoxy(command_account_pos);
-			printf("명령 설명");
-			gotoxy(command_account_pos_1);
-			printf("유닛은 같은 위치에서 생산됩니다");
-			gotoxy(command_account_pos_2);
-			printf("유닛을 이동시키고 생산하면");
-			gotoxy(command_account_pos_3);
-			printf("생산기능 확인이 편합니다");
-		// 설명을 위에 남는 공간에 추가하자
-			break;
-		case 'H':
-			printf("T : 이동                     ");
-
-			gotoxy(command_account_pos);
-			printf("명령 설명");
-			gotoxy(command_account_pos_1);
-			printf("1.하베스터 선택하고 T누르기");
-			gotoxy(command_account_pos_2);
-			printf("2.원하는 도착지 선택하면 이동");
-			gotoxy(command_account_pos_3);
-			printf("3.그 이후론 T누르지 않고도");
-			gotoxy(command_account_pos_4);
-			printf("3.유닛선택된 상태로");
-			gotoxy(command_account_pos_5);
-			printf("3.도착지 누르면 이동");
-
-			break;
-		default :
-			printf("사용가능한 명령이 없습니다. ");
-			break;
+			gotoxy(command_pos_5);
+			printf("ESC : 건설 메뉴 취소          ");
 		}
-		gotoxy(command_pos_5);
-		printf("M : 스파이스 5 증가(테스트용)    ");
+		else {
+			switch (select_unit_address->repr) {
+			case 'B':
+				printf("H : 하베스터 생산            ");
+				gotoxy(command_pos_2);
+				printf("비용: 5  인구수: 5           ");
+
+				gotoxy(command_account_pos);
+				printf("명령 설명");
+				gotoxy(command_account_pos_1);
+				printf("유닛은 같은 위치에서 생산됩니다");
+				gotoxy(command_account_pos_2);
+				printf("유닛을 이동시키고 생산하면");
+				gotoxy(command_account_pos_3);
+				printf("생산기능 확인이 편합니다");
+				// 설명을 위에 남는 공간에 추가하자
+				break;
+			case 'H':
+				printf("T : 이동                     ");
+
+				gotoxy(command_account_pos);
+				printf("명령 설명");
+				gotoxy(command_account_pos_1);
+				printf("1.하베스터 선택하고 T누르기");
+				gotoxy(command_account_pos_2);
+				printf("2.원하는 도착지 선택하면 이동");
+				gotoxy(command_account_pos_3);
+				printf("3.그 이후론 T누르지 않고도");
+				gotoxy(command_account_pos_4);
+				printf("3.유닛선택된 상태로");
+				gotoxy(command_account_pos_5);
+				printf("3.도착지 누르면 이동");
+
+				break;
+			default:
+				printf("사용가능한 명령이 없습니다. ");
+				break;
+			}
+			gotoxy(command_pos_5);
+			printf("B : 건물 건설               ");
+		}
 }
 void display_status_message() {// 만약 내가 하베스터를 선택한 상태로 하베스터가 죽어서 free가 되면 없는걸 참조해서 출력하니 멈추려나
 	POSITION side_pos_blue = {2, 84};

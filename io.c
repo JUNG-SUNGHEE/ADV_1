@@ -37,6 +37,8 @@ KEY get_key(void) {
 	case 72: return k_make_and_har_h;
 	case 109:
 	case 77: return k_move_m;
+	case 66:
+	case 98: return k_build;
 	case 116:
 	case 84: return k_mining_t;
 	case 115:

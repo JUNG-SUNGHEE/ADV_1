@@ -34,6 +34,7 @@ void display(
 );
 POSITION select_cursor;
 int esc_switch;
+int b_switch;
 
 
 
