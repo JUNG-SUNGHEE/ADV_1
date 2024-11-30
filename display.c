@@ -34,8 +34,9 @@ void display(RESOURCE resource, char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], CURSOR
 {
 	display_sys_message();
 	display_resource(resource);
-	display_map(map);
+	
 	display_cursor(cursor);
+	display_map(map);
     
 	display_status_message();
 	display_command_message();
@@ -114,7 +115,7 @@ void change_map(int hight_f, int width_f, int hight_s, int width_s, int display_
 						printc(padd(map_pos, pos), backbuf[i][j], 112);
 						break;
 					}
-					
+					//
 
 				}
 				else if (backbuf[i][j] == '#') {
@@ -186,48 +187,151 @@ void display_cursor(CURSOR cursor) {
 	POSITION prev = cursor.previous;
 	POSITION curr = cursor.current;
 	//POSITION A = { 0, 30 };
-	char ch = frontbuf[prev.row][prev.column];
+	char ch[4] = { frontbuf[prev.row][prev.column],frontbuf[prev.row + 1][prev.column], frontbuf[prev.row][prev.column + 1], frontbuf[prev.row + 1][prev.column + 1] };
+	char ch_1 = frontbuf[prev.row][prev.column];
+	POSITION prev_array[4] = { prev, {prev.row + 1, prev.column}, {prev.row, prev.column +1}, {prev.row +1, prev.column+1} };
+	POSITION curr_array[4] = { curr, {curr.row + 1, curr.column}, {curr.row, curr.column + 1}, {curr.row + 1, curr.column + 1} };
+	if (b_switch == 1) {
+		for (int i = 0; i < 4; i++) {
+			if (ch[i] == 'B') {// 이거 함수로?? 가능할것같은데
+				printc(padd(map_pos, prev_array[i]), ch[i], 17);
+			}
+			else if (ch[i] == 'b') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 68);
+			}
+			else if (ch[i] == 'P') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 51);
+			}
+			else if (ch[i] == 'p') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 204);
+			}
+			else if (ch[i] == '5' || ch[i] == '4' || ch[i] == '3' || ch[i] == '2' || ch[i] == '1' || ch[i] == '0') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 87);
+			}
+			else if (ch[i] == 'R') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 136);
+			}
+			else if (ch[i] == 'H') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 176);
+			}
+			else if (ch[i] == 'h') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 160);
+			}
+			else if (ch[i] == 'W') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 96);
+			}
+			else if (ch[i] == 'w') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 96);
+			}
+			else if (ch[i] == ' ') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 238);
+			}
+			else if (ch[i] == '#') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 240);
+			}
+			else {
+				printc(padd(map_pos, prev_array[i]), ch[i], COLOR_DEFAULT);
+			}
+		}
+		ch[0] = frontbuf[curr.row][curr.column];
+		ch[1] = frontbuf[curr.row + 1][curr.column];
+		ch[2] = frontbuf[curr.row][curr.column + 1];
+		ch[3] = frontbuf[curr.row + 1][curr.column + 1];
+
+		for (int i = 0; i < 4; i++) {
+			if (ch[i] != ' ') {
+				printc(padd(map_pos, curr_array[i]), ch[i], 79);
+			}
+			else {
+				printc(padd(map_pos, curr_array[i]), ch[i], 170);
+			}
+		}
+	}
+	/////////////////////////////////////////////
+	
+	else if(b_switch == 0){ //ch를 배열로 만들어서 아래를 반복문으로 하자
 	//printc(padd(map_pos, prev), ch, COLOR_DEFAULT);
 
+		for (int i = 0; i < 4; i++) {
+			if (ch[i] == 'B') {// 이거 함수로?? 가능할것같은데
+				printc(padd(map_pos, prev_array[i]), ch[i], 17);
+			}
+			else if (ch[i] == 'b') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 68);
+			}
+			else if (ch[i] == 'P') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 51);
+			}
+			else if (ch[i] == 'p') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 204);
+			}
+			else if (ch[i] == '5' || ch[i] == '4' || ch[i] == '3' || ch[i] == '2' || ch[i] == '1' || ch[i] == '0') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 87);
+			}
+			else if (ch[i] == 'R') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 136);
+			}
+			else if (ch[i] == 'H') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 176);
+			}
+			else if (ch[i] == 'h') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 160);
+			}
+			else if (ch[i] == 'W') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 96);
+			}
+			else if (ch[i] == 'w') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 96);
+			}
+			else if (ch[i] == ' ') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 238);
+			}
+			else if (ch[i] == '#') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 240);
+			}
+			else {
+				printc(padd(map_pos, prev_array[i]), ch[i], COLOR_DEFAULT);
+			}
+		}
+		//여기에 그 주변거 없애는 코드 추가하면 될듯
+				if (ch_1 == 'B') {// 이거 함수로?? 가능할것같은데
+					printc(padd(map_pos, prev), ch_1, 17);
+				}
+				else if (ch_1 == 'b') {
+					printc(padd(map_pos, prev), ch_1, 68);
+				}
+				else if (ch_1 == 'P') {
+					printc(padd(map_pos, prev), ch_1, 51);
+				}
+				else if (ch_1 == 'p') {
+					printc(padd(map_pos, prev), ch_1, 204);
+				}
+				else if (ch_1 == '5' || ch_1 == '4' || ch_1 == '3' || ch_1 == '2' || ch_1 == '1' || ch_1 == '0') {
+					printc(padd(map_pos, prev), ch_1, 87);
+				}
+				else if (ch_1 == 'R') {
+					printc(padd(map_pos, prev), ch_1, 136);
+				}
+				else if (ch_1 == 'H') {
+					printc(padd(map_pos, prev), ch_1, 176);
+				}
+				else if (ch_1 == 'h') {
+					printc(padd(map_pos, prev), ch_1, 160);
+				}
+				else if (ch_1 == 'W') {
+					printc(padd(map_pos, prev), ch_1, 96);
+				}
+				else if (ch_1 == 'w') {
+					printc(padd(map_pos, prev), ch_1, 96);
+				}
+				else if (ch_1 == ' ') {
+					printc(padd(map_pos, prev), ch_1, 238);
 
-				if (ch == 'B') {// 이거 함수로?? 가능할것같은데
-					printc(padd(map_pos, prev), ch, 17);
-				}
-				else if (ch == 'b') {
-					printc(padd(map_pos, prev), ch, 68);
-				}
-				else if (ch == 'P') {
-					printc(padd(map_pos, prev), ch, 51);
-				}
-				else if (ch == 'p') {
-					printc(padd(map_pos, prev), ch, 204);
-				}
-				else if (ch == '5' || ch == '4' || ch == '3' || ch == '2' || ch == '1' || ch == '0') {
-					printc(padd(map_pos, prev), ch, 87);
-				}
-				else if (ch == 'R') {
-					printc(padd(map_pos, prev), ch, 136);
-				}
-				else if (ch == 'H') {
-					printc(padd(map_pos, prev), ch, 176);
-				}
-				else if (ch == 'h') {
-					printc(padd(map_pos, prev), ch, 160);
-				}
-				else if (ch == 'W') {
-					printc(padd(map_pos, prev), ch, 96);
-				}
-				else if (ch == 'w') {
-					printc(padd(map_pos, prev), ch, 96);
-				}
-				else if (ch == ' ') {
-					printc(padd(map_pos, prev), ch, 238);
 				}
 				else {
-					printc(padd(map_pos, prev), ch, COLOR_DEFAULT);
+					printc(padd(map_pos, prev), ch_1, COLOR_DEFAULT);
 				}
-
-	ch = frontbuf[curr.row][curr.column];
-	printc(padd(map_pos, curr), ch, COLOR_CURSOR);
-	
+	ch_1 = frontbuf[curr.row][curr.column];
+	printc(padd(map_pos, curr), ch_1, COLOR_CURSOR);
+	}
 }

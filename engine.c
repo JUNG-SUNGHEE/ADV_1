@@ -418,7 +418,13 @@ int main(void) {
 			// 방향키 외의 입력
 			switch (key) {
 			case k_quit: outro();
-			case k_space: 
+			case k_space:// 스페이스바나 esc할때 cursor.current 주위의 것들을 원래색으로 바꿔줘야함
+				// 그방법은 그 스위치로 그안에 문자를 기준으로 색 입히자 이거진짜 배열로 만들 필요성 있다
+				// 아 그리고 건물건설할때 cursor.crrrent의 주위를 직접적으로 해서 문자가 있으면 건설못하게하자
+				//POSITION current_cursor_pos = { cursor.current.row, cursor.current.column};
+				
+				
+				
 				select_cursor = cursor.current; 
 				if (is_there_unit() != &a) {// is_there_unit에서 내가 선택한 위치에 유닛, 건물이 없으면 a의 주소를 반환함
 					select_unit_address = is_there_unit();// 만약 내가 하베스터를 선택한 상태로 하베스터가 죽어서 free가 되면 없는걸 참조해서 출력하니 멈추려나
