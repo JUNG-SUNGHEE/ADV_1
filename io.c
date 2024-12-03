@@ -43,6 +43,8 @@ KEY get_key(void) {
 	case 84: return k_mining_t;
 	case 115:
 	case 83: return k_show_unit;
+	case 112:
+	case 80: return k_build_plate;
 	case 224:
 		byte = _getch();  // MSB 224가 입력 되면 1바이트 더 전달 받기
 		switch (byte) {

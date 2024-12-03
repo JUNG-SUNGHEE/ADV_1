@@ -36,7 +36,8 @@ char total_sys_message[20][200] = {
 	"Not enough spice             ",
 	"아군이 웜에게 당했습니다.    ",
 	"인구 수용량이 부족합니다.     ",
-	"Show me the spice"
+	"Show me the spice            ",
+	"이곳엔 건축이 불가능합니다.   "
 };
 char curr_sys_cammand_message[6][200];
 
@@ -423,8 +424,24 @@ int main(void) {
 				// 아 그리고 건물건설할때 cursor.crrrent의 주위를 직접적으로 해서 문자가 있으면 건설못하게하자
 				//POSITION current_cursor_pos = { cursor.current.row, cursor.current.column};
 				
-				
-				
+
+				// 건축 범위안에 유닛이나 건물있으면 건축 안되도록
+				if (build_sort_switch != -1) {
+					if (map[0][cursor.current.row][cursor.current.column] == ' ' && map[0][cursor.current.row + 1][cursor.current.column] == ' ' && map[0][cursor.current.row][cursor.current.column + 1] == ' ' && map[0][cursor.current.row + 1][cursor.current.column + 1] == ' ' && map[1][cursor.current.row][cursor.current.column] == -1 && map[1][cursor.current.row + 1][cursor.current.column] == -1 && map[1][cursor.current.row][cursor.current.column + 1] == -1 && map[1][cursor.current.row + 1][cursor.current.column + 1] == -1)
+					{
+						switch (build_sort_switch) {
+						case 0:
+
+							insertfrontnode_pre(PLATE_BLUE, cursor.current, 1);
+							build_sort_switch = -1;
+							break;
+						}
+					}
+					else {
+						insert_sys_message(5);
+						build_sort_switch = -1;
+					}
+				}
 				select_cursor = cursor.current; 
 				if (is_there_unit() != &a) {// is_there_unit에서 내가 선택한 위치에 유닛, 건물이 없으면 a의 주소를 반환함
 					select_unit_address = is_there_unit();// 만약 내가 하베스터를 선택한 상태로 하베스터가 죽어서 free가 되면 없는걸 참조해서 출력하니 멈추려나
@@ -438,11 +455,13 @@ int main(void) {
 					//select_unit_address->allive_cmd[0] = 1;// allive_cmd[0] 이 1이면 정지를 의미함
 				} 
 				esc_switch = 0;
+				b_m_switch = 0;
 				b_switch = 0;
 				break;//select_flag는 좋은데 꼭 필요한진 모르겠다.
 			
 			case k_esc: esc_switch = 1;
 				select_unit_address = &a;
+				b_m_switch = 0;
 				b_switch = 0;
 				break;// is_there_unit이 주소를 리턴하게 하면 많은것을 할수있다. 이걸로 프로필 출력도 하자. 
 
@@ -477,6 +496,13 @@ int main(void) {
 				b_switch = 1;
 				esc_switch = 1;
 				select_unit_address = &a;
+				break;
+
+			case k_build_plate:
+				if (b_switch == 1) {
+					b_m_switch = 1;// 얘는 커서 크기 변경시키는 용 스위치임
+					build_sort_switch = 0;
+				}
 				break;
 
 			case k_move_m:

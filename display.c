@@ -191,7 +191,7 @@ void display_cursor(CURSOR cursor) {
 	char ch_1 = frontbuf[prev.row][prev.column];
 	POSITION prev_array[4] = { prev, {prev.row + 1, prev.column}, {prev.row, prev.column +1}, {prev.row +1, prev.column+1} };
 	POSITION curr_array[4] = { curr, {curr.row + 1, curr.column}, {curr.row, curr.column + 1}, {curr.row + 1, curr.column + 1} };
-	if (b_switch == 1) {
+	if (b_m_switch == 1) {
 		for (int i = 0; i < 4; i++) {
 			if (ch[i] == 'B') {// 이거 함수로?? 가능할것같은데
 				printc(padd(map_pos, prev_array[i]), ch[i], 17);
@@ -249,7 +249,7 @@ void display_cursor(CURSOR cursor) {
 	}
 	/////////////////////////////////////////////
 	
-	else if(b_switch == 0){ //ch를 배열로 만들어서 아래를 반복문으로 하자
+	else if(b_m_switch == 0){ //ch를 배열로 만들어서 아래를 반복문으로 하자
 	//printc(padd(map_pos, prev), ch, COLOR_DEFAULT);
 
 		for (int i = 0; i < 4; i++) {
