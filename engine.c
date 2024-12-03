@@ -37,15 +37,15 @@ char total_sys_message[20][200] = {
 	"아군이 웜에게 당했습니다.    ",
 	"인구 수용량이 부족합니다.     ",
 	"Show me the spice            ",
-	"이곳엔 건축이 불가능합니다.   "
+	"이곳엔 건설이 불가능합니다.   "
 };
 char curr_sys_cammand_message[6][200];
 
-extern node* head;
-void insertfrontnode(OBJECT_SAMPLE);
+extern node* head;// 링크드 리스트 해드
+void insertfrontnode(OBJECT_SAMPLE);// 링크드 리스트 노드 추가 함수
 void insertfrontnode_pre(OBJECT_SAMPLE, POSITION, int);
 void poop(int, int);
-int eat_unit(int, int);
+int eat_unit(int, int);// 링크드 리스트 노드 제거함수
 
 void insert_sys_message(int);
 
@@ -64,7 +64,7 @@ void cursor_move(DIRECTION dir);
 int fast_move(DIRECTION dir, int sys_clock);
 //void sample_obj_move(void);
 
-node* is_there_unit(void);// 커서선택 위치에 있는 유닛을 보여주는 함수/ 링크드 리스트 순회
+node* is_there_unit(void);// 커서선택 위치에 있는 유닛을 보여주는 함수/ 링크드 리스트 순회//링크드 리스트 순회
 
 void total_object_move(void);
 
@@ -431,10 +431,10 @@ int main(void) {
 					{
 						switch (build_sort_switch) {
 						case 0:
-
 							insertfrontnode_pre(PLATE_BLUE, cursor.current, 1);
 							build_sort_switch = -1;
 							break;
+
 						}
 					}
 					else {
@@ -1310,64 +1310,64 @@ void poop(int column, int row) {
 		}
 }
 
-int eat_unit(int row, int column) {
-	node* delnode;// 삭제할 노드 주소 저장
-	node* prevnode;// 삭제할 이전 노드의 주소 저장
-	if (head == NULL) {
-		return;
-	}
+int eat_unit(int row, int column) {//링크드 리스트 노드 삭제
+	node* delnode;// 삭제할 노드 주소 저장//
+	node* prevnode;// 삭제할 이전 노드의 주소 저장//
+	if (head == NULL) {//
+		return;//
+	}//
 
-	if (head->pos.column == column && head->pos.row == row) {
-		delnode = head;
-		head = head->next;
-		if (delnode->is_it_structure_flag == 0) {
-			return 1;
-		}
-		else {
-			if (delnode->is_it_my_side_flag == 1 && delnode->is_it_structure_flag == 1) {
-				insert_sys_message(2);
-				resource.population -= delnode->population;
-			}
-			map[1][row][column] = -1;
-			if (select_unit_address->repr == delnode->repr) {
-				select_unit_address = &a;
-			}
-			free(delnode);
+	if (head->pos.column == column && head->pos.row == row) {//
+		delnode = head;//
+		head = head->next;//
+		if (delnode->is_it_structure_flag == 0) {//
+			return 1;//
+		}//
+		else {//
+			if (delnode->is_it_my_side_flag == 1 && delnode->is_it_structure_flag == 1) {//
+				insert_sys_message(2);//
+				resource.population -= delnode->population;//
+			}//
+			map[1][row][column] = -1;//
+			if (select_unit_address->repr == delnode->repr) {//
+				select_unit_address = &a;//
+			}//
+			free(delnode);//
 			
 		
 			
 			//// 여기다가 시스템 메시지 조건 내팀 맞음? 으로해서 맞으면 죽었다
-		}
-		return;
-	}
+		}//
+		return;//
+	}//
 
-	prevnode = head;
-	delnode = head;
-	while (prevnode->next != NULL) {
-		delnode = prevnode->next;
+	prevnode = head;//
+	delnode = head;//
+	while (prevnode->next != NULL) {//
+		delnode = prevnode->next;//
 
-		if (delnode->pos.column == column && delnode->pos.row == row) {
-			prevnode->next = delnode->next;
-			if (delnode->is_it_structure_flag == 0) {
-				return 1;
-			}
-			else {
-				if (delnode->is_it_my_side_flag == 1 && delnode->is_it_structure_flag == 1) {
-					insert_sys_message(2);
-					resource.population -= delnode->population;
-				}
-				map[1][row][column] = -1;
-				if (select_unit_address->repr == delnode->repr) {
-					select_unit_address = &a;
-				}
-				free(delnode);
+		if (delnode->pos.column == column && delnode->pos.row == row) {//
+			prevnode->next = delnode->next;//
+			if (delnode->is_it_structure_flag == 0) {//
+				return 1;//
+			}//
+			else {//
+				if (delnode->is_it_my_side_flag == 1 && delnode->is_it_structure_flag == 1) {//
+					insert_sys_message(2);//
+					resource.population -= delnode->population;//
+				}//
+				map[1][row][column] = -1;//
+				if (select_unit_address->repr == delnode->repr) {//
+					select_unit_address = &a;//
+				}//
+				free(delnode);//
 				
-			}
-			return;
-		}
-		prevnode = delnode;
-	}
-}
+			}//
+			return;//
+		}//
+		prevnode = delnode;//
+	}//
+}//
 
 POSITION total_object_next_position(node* curnode) {
 	POSITION diff = psub(curnode->dest, curnode->pos);
@@ -1490,58 +1490,58 @@ void total_object_move() {
 	curnode->next_move_time = sys_clock + curnode->speed;
 }
 
-void insertfrontnode(OBJECT_SAMPLE unit_sort)
-{
-	cnt++;
-	node* newnode;
-	newnode = (node*)malloc(sizeof(node));
-	newnode->color = unit_sort.color;
-	newnode->cost = unit_sort.cost;
-	newnode->dest = unit_sort.dest;
-	newnode->src = unit_sort.src;
-	newnode->curr_hp = unit_sort.curr_hp;
-	newnode->max_hp = unit_sort.max_hp;
-	newnode->move_period = unit_sort.move_period;
-	newnode->next_move_time = unit_sort.next_move_time;
-	newnode->population = unit_sort.population;
-	newnode->pos = unit_sort.pos;
-	newnode->repr = unit_sort.repr;
-	newnode->speed = unit_sort.speed;
-	newnode->str = unit_sort.str;
-	newnode->as = unit_sort.as;
-	newnode->vision = unit_sort.vision;
-	newnode->unit_cnt = cnt;//얜 없네 머지
+void insertfrontnode(OBJECT_SAMPLE unit_sort)// 노드 추가
+{//
+	cnt++;//
+	node* newnode;//
+	newnode = (node*)malloc(sizeof(node));//
+	newnode->color = unit_sort.color;//
+	newnode->cost = unit_sort.cost;//
+	newnode->dest = unit_sort.dest;//
+	newnode->src = unit_sort.src;//
+	newnode->curr_hp = unit_sort.curr_hp;//
+	newnode->max_hp = unit_sort.max_hp;//
+	newnode->move_period = unit_sort.move_period;//
+	newnode->next_move_time = unit_sort.next_move_time;//
+	newnode->population = unit_sort.population;//
+	newnode->pos = unit_sort.pos;//
+	newnode->repr = unit_sort.repr;//
+	newnode->speed = unit_sort.speed;//
+	newnode->str = unit_sort.str;//
+	newnode->as = unit_sort.as;//
+	newnode->vision = unit_sort.vision;//
+	newnode->unit_cnt = cnt;//얜 없네 머지//
 
-	newnode->select_flag = unit_sort.select_flag;
-	newnode->cmd_flag_round_move = unit_sort.cmd_flag_round_move;
-	newnode->cmd_flag_move = unit_sort.cmd_flag_move;
+	newnode->select_flag = unit_sort.select_flag;//
+	newnode->cmd_flag_round_move = unit_sort.cmd_flag_round_move;//
+	newnode->cmd_flag_move = unit_sort.cmd_flag_move;//
 
-	newnode->size = unit_sort.size;
+	newnode->size = unit_sort.size;//
 
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 17; j++) {
-			newnode->image[i][j] = unit_sort.image[i][j];
-		}
-	}
+	for (int i = 0; i < 8; i++) {//
+		for (int j = 0; j < 17; j++) {//
+			newnode->image[i][j] = unit_sort.image[i][j];//
+		}//
+	}//
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 10; i++) {//
 		newnode->possible_cmd[i] = unit_sort.possible_cmd[i];//0:(H) 하베스터 채굴 / 1:(M) move / 2:(P) 순찰    //    3:(H) 하베스터 생산 // 정지 명령도 만들자
-		newnode->allive_cmd[i] = unit_sort.allive_cmd[i];
-	}
-	newnode->is_it_my_side_flag = unit_sort.is_it_my_side_flag;
-	newnode->is_it_structure_flag = unit_sort.is_it_structure_flag;
-	newnode->next = NULL;
+		newnode->allive_cmd[i] = unit_sort.allive_cmd[i];//
+	}//
+	newnode->is_it_my_side_flag = unit_sort.is_it_my_side_flag;//
+	newnode->is_it_structure_flag = unit_sort.is_it_structure_flag;//
+	newnode->next = NULL;//
 
-	map[1][newnode->pos.row][newnode->pos.column] = newnode->repr;
+	map[1][newnode->pos.row][newnode->pos.column] = newnode->repr;//
 	
-	if (head == NULL) {
-		head = newnode;
-		return;
-	}
-	newnode->next = head;
-	head = newnode;
+	if (head == NULL) {//
+		head = newnode;//
+		return;//
+	}//
+	newnode->next = head;//
+	head = newnode;//
 
-}
+}//
 
 /*void displaynode() {
 	node* curnode;
@@ -1557,47 +1557,47 @@ void insertfrontnode(OBJECT_SAMPLE unit_sort)
 	printf("%d", curnode->cost);
 }*/
 
-node* is_there_unit(){// 링크드 리스트를 순회해서 내가 선택한 위치인 select_cursor와 각 유닛의 위치를 비교해서 특정 조건을 만족하는 유닛의 주소를 반환하는 함수
-	node* curnode;
-	if (head == NULL) {
-		return;// 요 리턴을 일단 아무 의미 없는 값으로 주자// 아닌데 애초에 
-	}
-	curnode = head;
-	while (curnode->next != NULL) {
-		if (curnode->size == 1) {
-			if (curnode->pos.column == select_cursor.column && curnode->pos.row == select_cursor.row) {
+node* is_there_unit(){//// 링크드 리스트를 순회해서 내가 선택한 위치인 select_cursor와 각 유닛의 위치를 비교해서 특정 조건을 만족하는 유닛의 주소를 반환하는 함수
+	node* curnode;//
+	if (head == NULL) {//
+		return;//// 요 리턴을 일단 아무 의미 없는 값으로 주자// 아닌데 애초에 
+	}//
+	curnode = head;//
+	while (curnode->next != NULL) {//
+		if (curnode->size == 1) {//
+			if (curnode->pos.column == select_cursor.column && curnode->pos.row == select_cursor.row) {//
 				//printf("%d 번째의 유닛", curnode->unit_cnt);
-				curnode->select_flag = 1;
-				return curnode;
-			}
-		}
-		else if (curnode->size == 2) {
-			for (int i = 0; i < curnode->size; i++) {
-				for (int j = 0; j < curnode->size; j++) {
-					if (curnode->pos.column + i == select_cursor.column && curnode->pos.row + j == select_cursor.row) {
-						return curnode;
-					}
-				}
-			}
-		}// 그니까 만약 조건이 맞다면 curnode 구조체를 리턴하는데 만약 아니라면? 그것도 리턴을 해줘야지 무언가 
-		curnode = curnode->next;
-	}
-	if (curnode->size == 1) {
-		if (curnode->pos.column == select_cursor.column && curnode->pos.row == select_cursor.row) {
+				curnode->select_flag = 1;//
+				return curnode;//
+			}//
+		}//
+		else if (curnode->size == 2) {//
+			for (int i = 0; i < curnode->size; i++) {//
+				for (int j = 0; j < curnode->size; j++) {//
+					if (curnode->pos.column + i == select_cursor.column && curnode->pos.row + j == select_cursor.row) {//
+						return curnode;//
+					}//
+				}//
+			}//
+		}//// 그니까 만약 조건이 맞다면 curnode 구조체를 리턴하는데 만약 아니라면? 그것도 리턴을 해줘야지 무언가 
+		curnode = curnode->next;//
+	}//
+	if (curnode->size == 1) {//
+		if (curnode->pos.column == select_cursor.column && curnode->pos.row == select_cursor.row) {//
 			//printf("%d 번째의 유닛", curnode->unit_cnt);
-			curnode->select_flag = 1;
-			return curnode;// 알겠다 왜 처음에 하베스터를 스페이스바로 선택하면 에러가 나는지 아니 애초에 유닛이 아닌것을 스페이스바로 선택하면 그냥 멈춰버림 그이유는 
-		}
-	}
-	else if (curnode->size == 2) {
-		for (int i = 0; i < curnode->size; i++) {
-			for (int j = 0; j < curnode->size; j++) {
-				if (curnode->pos.column + i == select_cursor.column && curnode->pos.row + j == select_cursor.row) {
-					return curnode;
-				}
-			}
-		}
-	}
-	return &a;
-}
+			curnode->select_flag = 1;//
+			return curnode;//// 알겠다 왜 처음에 하베스터를 스페이스바로 선택하면 에러가 나는지 아니 애초에 유닛이 아닌것을 스페이스바로 선택하면 그냥 멈춰버림 그이유는 
+		}//
+	}//
+	else if (curnode->size == 2) {//
+		for (int i = 0; i < curnode->size; i++) {//
+			for (int j = 0; j < curnode->size; j++) {//
+				if (curnode->pos.column + i == select_cursor.column && curnode->pos.row + j == select_cursor.row) {//
+					return curnode;//
+				}//
+			}//
+		}//
+	}//
+	return &a;//
+}//
 
