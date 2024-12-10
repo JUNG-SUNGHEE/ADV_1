@@ -484,55 +484,55 @@ int main(void) {
 			// 방향키 외의 입력
 			switch (key) {
 			case k_quit: outro();
-			case k_space:// 스페이스바나 esc할때 cursor.current 주위의 것들을 원래색으로 바꿔줘야함
+			case k_space:// 스페이스바나 esc할때 cursor.current 주위의 것들을 원래색으로 바꿔줘야함//
 				// 그방법은 그 스위치로 그안에 문자를 기준으로 색 입히자 이거진짜 배열로 만들 필요성 있다
 				// 아 그리고 건물건설할때 cursor.crrrent의 주위를 직접적으로 해서 문자가 있으면 건설못하게하자
 				//POSITION current_cursor_pos = { cursor.current.row, cursor.current.column};
 				
 
 				// 건축 범위안에 유닛이나 건물있으면 건축 안되도록
-				if (build_sort_switch != -1) {
-					if (map[0][cursor.current.row][cursor.current.column] == ' ' && map[0][cursor.current.row + 1][cursor.current.column] == ' ' && map[0][cursor.current.row][cursor.current.column + 1] == ' ' && map[0][cursor.current.row + 1][cursor.current.column + 1] == ' ' && map[1][cursor.current.row][cursor.current.column] == -1 && map[1][cursor.current.row + 1][cursor.current.column] == -1 && map[1][cursor.current.row][cursor.current.column + 1] == -1 && map[1][cursor.current.row + 1][cursor.current.column + 1] == -1)
-					{
-						switch (build_sort_switch) {
-						case 0:
-							insertfrontnode_pre(PLATE_BLUE, cursor.current, 1);
-							build_sort_switch = -1;
-							break;
-						case 1:
-							insertfrontnode_pre(Dormitory_BLUE, cursor.current, 1);
-							build_sort_switch = -1;
-							break;
+				if (build_sort_switch != -1) {//
+					if (map[0][cursor.current.row][cursor.current.column] == ' ' && map[0][cursor.current.row + 1][cursor.current.column] == ' ' && map[0][cursor.current.row][cursor.current.column + 1] == ' ' && map[0][cursor.current.row + 1][cursor.current.column + 1] == ' ' && map[1][cursor.current.row][cursor.current.column] == -1 && map[1][cursor.current.row + 1][cursor.current.column] == -1 && map[1][cursor.current.row][cursor.current.column + 1] == -1 && map[1][cursor.current.row + 1][cursor.current.column + 1] == -1)//
+					{//
+						switch (build_sort_switch) {//
+						case 0://
+							insertfrontnode_pre(PLATE_BLUE, cursor.current, 1);//
+							build_sort_switch = -1;//
+							break;//
+						case 1://
+							insertfrontnode_pre(Dormitory_BLUE, cursor.current, 1);//
+							build_sort_switch = -1;//
+							break;//
 
-						}
-					}
-					else {
-						insert_sys_message(5);
-						build_sort_switch = -1;
-					}
-				}
-				select_cursor = cursor.current; 
-				if (is_there_unit() != &a) {// is_there_unit에서 내가 선택한 위치에 유닛, 건물이 없으면 a의 주소를 반환함
-					select_unit_address = is_there_unit();// 만약 내가 하베스터를 선택한 상태로 하베스터가 죽어서 free가 되면 없는걸 참조해서 출력하니 멈추려나
-				}
+						}//
+					}//
+					else {//
+						insert_sys_message(5);//
+						build_sort_switch = -1;//
+					}//
+				}//
+				select_cursor = cursor.current;// 
+				if (is_there_unit() != &a) {/// is_there_unit에서 내가 선택한 위치에 유닛, 건물이 없으면 a의 주소를 반환함
+					select_unit_address = is_there_unit();/// 만약 내가 하베스터를 선택한 상태로 하베스터가 죽어서 free가 되면 없는걸 참조해서 출력하니 멈추려나
+				}//
 
-				if (select_unit_address->allive_cmd[1] == 1) {
-					select_unit_address->dest.row = select_cursor.row;
-					select_unit_address->dest.column = select_cursor.column;
+				if (select_unit_address->allive_cmd[1] == 1) {//
+					select_unit_address->dest.row = select_cursor.row;//
+					select_unit_address->dest.column = select_cursor.column;//
 					
 					//select_unit_address->allive_cmd[1] = 0;
 					//select_unit_address->allive_cmd[0] = 1;// allive_cmd[0] 이 1이면 정지를 의미함
-				} 
-				esc_switch = 0;
-				b_m_switch = 0;
-				b_switch = 0;
-				break;//select_flag는 좋은데 꼭 필요한진 모르겠다.
+				} //
+				esc_switch = 0;//
+				b_m_switch = 0;//
+				b_switch = 0;//
+				break;///select_flag는 좋은데 꼭 필요한진 모르겠다.
 			
-			case k_esc: esc_switch = 1;
-				select_unit_address = &a;
-				b_m_switch = 0;
-				b_switch = 0;
-				break;// is_there_unit이 주소를 리턴하게 하면 많은것을 할수있다. 이걸로 프로필 출력도 하자. 
+			case k_esc: esc_switch = 1;//
+				select_unit_address = &a;//
+				b_m_switch = 0;//
+				b_switch = 0;//
+				break;/// is_there_unit이 주소를 리턴하게 하면 많은것을 할수있다. 이걸로 프로필 출력도 하자. 
 
 			case k_make_and_har_h: 
 				if (select_unit_address->repr == 'B') {
@@ -554,13 +554,13 @@ int main(void) {
 					}
 				}
 			
-			case k_mining_t: 
-				if (select_unit_address->possible_cmd[1] == 1) { 
-					select_unit_address->allive_cmd[0] = 0; 
-					select_unit_address->allive_cmd[1] = 1;//시작하자마자 t를 누르면 멈춰버린다 null을 참조해서 그런듯
-					select_unit_address->allive_cmd[2] = 0;
-				} break;// 아직 완벽하게는 안됨
-
+			case k_mining_t:// 
+				if (select_unit_address->possible_cmd[1] == 1) { //
+					select_unit_address->allive_cmd[0] = 0; //
+					select_unit_address->allive_cmd[1] = 1;///시작하자마자 t를 누르면 멈춰버린다 null을 참조해서 그런듯
+					select_unit_address->allive_cmd[2] = 0;//
+				} break;// 아직 완벽하게는 안됨//
+				//
 			case k_build:
 				b_switch = 1;
 				esc_switch = 1;
@@ -615,7 +615,7 @@ int main(void) {
 
 		// 샘플 오브젝트 동작
 		//sample_obj_move();
-		total_object_move();
+		total_object_move();//
 		
 
 		// 화면 출력
@@ -716,11 +716,11 @@ void display_command_message() {
 
 		gotoxy(command_pos);
 		if (b_switch == 1) {
-			printf("B : 본진   P : 장판");
+			printf(" P : 장판            ");
 			gotoxy(command_pos_2);
-			printf("D : 숙소   G : 창고");
+			printf("                     ");
 			gotoxy(command_pos_3);
-			printf("B : 병영   S : 은신처");
+			printf("                     ");
 
 			gotoxy(command_pos_5);
 			printf("ESC : 건설 메뉴 취소          ");
@@ -1451,9 +1451,9 @@ int eat_unit(int row, int column) {//링크드 리스트 노드 삭제
 	}//
 }//
 
-POSITION total_object_next_position(node* curnode) {
-	POSITION diff = psub(curnode->dest, curnode->pos);
-	DIRECTION dir;
+POSITION total_object_next_position(node* curnode) {//
+	POSITION diff = psub(curnode->dest, curnode->pos);//
+	DIRECTION dir;//
 	// 목적지 도착. 지금은 단순히 원래 자리로 왕복
 	/*if (select_unit_address->allive_cmd[0] != 1) {
 		return curnode->pos;
@@ -1461,90 +1461,90 @@ POSITION total_object_next_position(node* curnode) {
 
 	
 
-	if (curnode->allive_cmd[0] == 1) {
-		return curnode->pos;
+	if (curnode->allive_cmd[0] == 1) {//
+		return curnode->pos;//
 	}// 이런식으로 움직임 커멘드 조절하자// 
 
-	if (curnode->repr == 'W') {
-		poop(curnode->pos.column, curnode->pos.row);
-		node* closest_address;
-		closest_address = who_is_the_closest(curnode->pos);
-		if (closest_address != &a) {//
-			POSITION new_dest = { closest_address->pos.row, closest_address->pos.column };
-			curnode->dest = new_dest;
-		}
-		else {
-			return curnode->pos;
-		}
-	}
+	if (curnode->repr == 'W') {//
+		poop(curnode->pos.column, curnode->pos.row);//
+		node* closest_address;//
+		closest_address = who_is_the_closest(curnode->pos);//
+		if (closest_address != &a) {////
+			POSITION new_dest = { closest_address->pos.row, closest_address->pos.column };//
+			curnode->dest = new_dest;//
+		}//
+		else {//
+			return curnode->pos;//
+		}//
+	}//
 
-	if (diff.row == 0 && diff.column == 0) {
-		if (curnode->allive_cmd[1] == 1) {
+	if (diff.row == 0 && diff.column == 0) {//
+		if (curnode->allive_cmd[1] == 1) {//
 			//curnode->allive_cmd[1] = 0;
 			//curnode->allive_cmd[0] = 1;
-			return curnode->pos;
-		}
-		if (curnode->dest.row == curnode->src.row && curnode->dest.column == curnode->src.column) {
+			return curnode->pos;//
+		}//
+		if (curnode->dest.row == curnode->src.row && curnode->dest.column == curnode->src.column) {//
 			// topleft --> bottomright로 목적지 설정
-			POSITION new_dest = { curnode->dest.row, curnode->dest.column };
-			curnode->dest = new_dest;
-		}
-		else {
-			POSITION new_dest = { curnode->src.row, curnode->src.column};
-			curnode->src.column = curnode->dest.column;
-			curnode->src.row = curnode->dest.row;
-			curnode->dest = new_dest;                                
-		}
-		return curnode->pos;
-	}
+			POSITION new_dest = { curnode->dest.row, curnode->dest.column };//
+			curnode->dest = new_dest;//
+		}//
+		else {//
+			POSITION new_dest = { curnode->src.row, curnode->src.column};//
+			curnode->src.column = curnode->dest.column;//
+			curnode->src.row = curnode->dest.row;//
+			curnode->dest = new_dest;//                                
+		}//
+		return curnode->pos;//
+	}//
 	// 가로축, 세로축 거리를 비교해서 더 먼 쪽 축으로 이동
-	if (abs(diff.row) >= abs(diff.column)) {
+	if (abs(diff.row) >= abs(diff.column)) {//
 
-		dir = (diff.row >= 0) ? d_down : d_up;
-	}
-	else {
-		dir = (diff.column >= 0) ? d_right : d_left;
-	}
+		dir = (diff.row >= 0) ? d_down : d_up;//
+	}//
+	else {//
+		dir = (diff.column >= 0) ? d_right : d_left;//
+	}//
 	
 	// validation check
 	// next_pos가 맵을 벗어나지 않고, (지금은 없지만)장애물에 부딪히지 않으면 다음 위치로 이동
 	// 지금은 충돌 시 아무것도 안 하는데, 나중에는 장애물을 피해가거나 적과 전투를 하거나... 등등
-	POSITION next_pos = pmove(curnode->pos, dir);
+	POSITION next_pos = pmove(curnode->pos, dir);//
 	
 	
-	if (curnode->repr == 'W' && map[1][next_pos.row][next_pos.column] != -1) {
+	if (curnode->repr == 'W' && map[1][next_pos.row][next_pos.column] != -1) {//
 		//if(){next_pos = curnode->pos}
-		if (eat_unit(next_pos.row, next_pos.column) == 1) {
-			next_pos.row = curnode->pos.row;
-			next_pos.column = curnode->pos.column;
-		}
+		if (eat_unit(next_pos.row, next_pos.column) == 1) {//
+			next_pos.row = curnode->pos.row;//
+			next_pos.column = curnode->pos.column;//
+		}//
 			
-	}
+	}//
 
 
-
+	//
 	if (1 <= next_pos.row && next_pos.row <= GAME_HEIGHT - 2 && \
 		1 <= next_pos.column && next_pos.column <= GAME_WIDTH - 2 && \
-		map[1][next_pos.row][next_pos.column] < 0 ) {
-		return next_pos;
-	}
-	else {
-		return curnode->pos;  // 제자리
-	}
-}
+		map[1][next_pos.row][next_pos.column] < 0 ) {//
+		return next_pos;//
+	}//
+	else {//
+		return curnode->pos;  // 제자리//
+	}//
+}//
 
 
-void total_object_move() {
-	node* curnode;
-	if (head == NULL) {
-		return;
-	}
-	curnode = head;
-	while (curnode->next != NULL) {
+void total_object_move() {//
+	node* curnode;//
+	if (head == NULL) {//
+		return;//
+	}//
+	curnode = head;//
+	while (curnode->next != NULL) {//
 		
-		if (sys_clock <= curnode->next_move_time) {	
-			return;
-		}
+		if (sys_clock <= curnode->next_move_time) {//	
+			return;//
+		}//
 
 		/*if (curnode->repr == 'W') {
 			int r = rand() % 100 + 1;
@@ -1554,23 +1554,23 @@ void total_object_move() {
 			}
 		}*/
 
-		map[1][curnode->pos.row][curnode->pos.column] = -1;
-		curnode->pos = total_object_next_position(curnode);
-		map[1][curnode->pos.row][curnode->pos.column] = curnode->repr;
+		map[1][curnode->pos.row][curnode->pos.column] = -1;//
+		curnode->pos = total_object_next_position(curnode);//
+		map[1][curnode->pos.row][curnode->pos.column] = curnode->repr;//
 
-		curnode->next_move_time = sys_clock + curnode->speed;
-		curnode = curnode->next;
-	}
-	if (sys_clock <= curnode->next_move_time) {
-		return;
-	}
+		curnode->next_move_time = sys_clock + curnode->speed;//
+		curnode = curnode->next;//
+	}//
+	if (sys_clock <= curnode->next_move_time) {//
+		return;//
+	}//
 
-	map[1][curnode->pos.row][curnode->pos.column] = -1;
-	curnode->pos = total_object_next_position(curnode);
-	map[1][curnode->pos.row][curnode->pos.column] = curnode->repr;
+	map[1][curnode->pos.row][curnode->pos.column] = -1;//
+	curnode->pos = total_object_next_position(curnode);//
+	map[1][curnode->pos.row][curnode->pos.column] = curnode->repr;//
 
-	curnode->next_move_time = sys_clock + curnode->speed;
-}
+	curnode->next_move_time = sys_clock + curnode->speed;//
+}//
 
 void insertfrontnode(OBJECT_SAMPLE unit_sort)// 노드 추가
 {//
