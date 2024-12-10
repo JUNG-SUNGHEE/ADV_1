@@ -36,7 +36,7 @@ POSITION select_cursor;
 int esc_switch;
 int b_m_switch;
 int b_switch;
-int build_sort_switch;// 0 : 장판
+int build_sort_switch;// 0 : 장판 1 : 숙소
 
 
 

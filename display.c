@@ -162,6 +162,13 @@ void change_map(int hight_f, int width_f, int hight_s, int width_s, int display_
 				else if (backbuf[i][j] == 'M') {
 					printc(padd(map_pos, pos), backbuf[i][j], 238);
 				}
+				
+				else if (backbuf[i][j] == 'D') {
+					printc(padd(map_pos, pos), backbuf[i][j], 187);
+				}
+				else if (backbuf[i][j] == 'd') {
+					printc(padd(map_pos, pos), backbuf[i][j], 221);
+				}
 
 
 				else {
@@ -229,6 +236,12 @@ void display_cursor(CURSOR cursor) {
 			else if (ch[i] == '#') {
 				printc(padd(map_pos, prev_array[i]), ch[i], 240);
 			}
+			else if (ch[i] == 'D') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 187);
+			}
+			else if (ch[i] == 'd') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 221);
+			}
 			else {
 				printc(padd(map_pos, prev_array[i]), ch[i], COLOR_DEFAULT);
 			}
@@ -289,6 +302,13 @@ void display_cursor(CURSOR cursor) {
 			else if (ch[i] == '#') {
 				printc(padd(map_pos, prev_array[i]), ch[i], 240);
 			}
+			else if (ch[i] == 'D') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 187);
+			}
+			else if (ch[i] == 'd') {
+				printc(padd(map_pos, prev_array[i]), ch[i], 221);
+			}
+			
 			else {
 				printc(padd(map_pos, prev_array[i]), ch[i], COLOR_DEFAULT);
 			}
@@ -327,6 +347,12 @@ void display_cursor(CURSOR cursor) {
 				else if (ch_1 == ' ') {
 					printc(padd(map_pos, prev), ch_1, 238);
 
+				}
+				else if (ch_1 == 'D') {
+					printc(padd(map_pos, prev), ch_1, 187);
+				}
+				else if (ch_1 == 'd') {
+					printc(padd(map_pos, prev), ch_1, 221);
 				}
 				else {
 					printc(padd(map_pos, prev), ch_1, COLOR_DEFAULT);

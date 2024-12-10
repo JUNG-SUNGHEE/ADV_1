@@ -8,6 +8,7 @@
 #include "io.h"
 #include "display.h"
 
+build_sort_switch = -1;
 int cnt = 0;//유닛 넘버링 용
 node a = { .is_it_my_side_flag =3, .image = {
 	{'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'},
@@ -209,6 +210,63 @@ OBJECT_SAMPLE W = {
 	.is_it_my_side_flag = 2,
 	.is_it_structure_flag = 1
 
+};
+
+OBJECT_SAMPLE Dormitory_BLUE = {
+	.image = {
+	{'M','M','M','U','U','U','U','U','U','U','U','U','R','R','B','B','B'},
+	{'M','M','M','U','Q','Q','Q','U','U','U','Q','Q','Q','R','B','B','B'},
+	{'M','M','M','U','U','U','U','U','U','U','U','U','R','R','M','M','M'},
+	{'M','M','M','U','Q','Q','Q','U','U','U','Q','Q','Q','R','T','T','T'},
+	{'T','T','T','U','U','U','U','U','Q','U','U','U','R','R','P','P','P'},
+	{'P','P','P','U','Q','Q','Q','U','Q','U','Q','Q','Q','R','P','P','P'},
+	{'P','P','P','U','U','U','U','U','Q','U','U','U','R','R','P','P','P'},
+	{'P','P','P','P','P','P','P','P','P','P','P','P','P','P','P','P','P'}
+},
+	.pos = {0},
+	.size = 2,
+	.curr_hp = 50,
+	.max_hp = 50,
+	.str = -1,
+	.as = -1,
+	.vision = -1,
+	.speed = -1,
+	.cost = 0,
+	.repr = 'D',
+
+
+	.possible_cmd = {0,0,0,0,0},// 0: 정지 // 1:(H) 하베스터 채굴 // 2:(M) move // 3:(P) 순찰 // 4:(H) 하베스터 생산
+	.allive_cmd = {1, 0},// 이렇게 해서 처음부터 가만히 있게하고 건물이니 풀지말자 저 1 
+	.is_it_structure_flag = 0,
+	.is_it_my_side_flag = 1
+};
+OBJECT_SAMPLE Dormitory_RED = {
+	.image = {
+	{'M','M','M','U','U','U','U','U','U','U','U','U','R','R','b','b','b'},
+	{'M','M','M','U','Q','Q','Q','U','U','U','Q','Q','Q','R','b','b','b'},
+	{'M','M','M','U','U','U','U','U','U','U','U','U','R','R','M','M','M'},
+	{'M','M','M','U','Q','Q','Q','U','U','U','Q','Q','Q','R','T','T','T'},
+	{'T','T','T','U','U','U','U','U','Q','U','P','P','R','R','p','p','p'},
+	{'p','p','p','U','Q','Q','Q','U','Q','U','Q','Q','Q','R','p','p','p'},
+	{'p','p','p','U','U','U','U','U','Q','U','U','U','R','R','p','p','p'},
+	{'p','p','p','p','p','p','p','p','p','p','p','p','p','p','p','p','p'}
+},
+	.pos = {0},
+	.size = 2,
+	.curr_hp = 50,
+	.max_hp = 50,
+	.str = -1,
+	.as = -1,
+	.vision = -1,
+	.speed = -1,
+	.cost = 0,
+	.repr = 'd',
+
+
+	.possible_cmd = {0,0,0,0,0},// 0: 정지 // 1:(H) 하베스터 채굴 // 2:(M) move // 3:(P) 순찰 // 4:(H) 하베스터 생산
+	.allive_cmd = {1, 0},// 이렇게 해서 처음부터 가만히 있게하고 건물이니 풀지말자 저 1 
+	.is_it_structure_flag = 0,
+	.is_it_my_side_flag = 0
 };
 
 OBJECT_SAMPLE BASE_BLUE = {
@@ -434,6 +492,10 @@ int main(void) {
 							insertfrontnode_pre(PLATE_BLUE, cursor.current, 1);
 							build_sort_switch = -1;
 							break;
+						case 1:
+							insertfrontnode_pre(Dormitory_BLUE, cursor.current, 1);
+							build_sort_switch = -1;
+							break;
 
 						}
 					}
@@ -504,6 +566,14 @@ int main(void) {
 					build_sort_switch = 0;
 				}
 				break;
+
+			case k_build_Dor:
+				if (b_switch == 1) {
+					b_m_switch = 1;// 얘는 커서 크기 변경시키는 용 스위치임
+					build_sort_switch = 1;
+				}
+				break;
+
 
 			case k_move_m:
 				if (resource.spice_max >= resource.spice + 5) {
@@ -787,6 +857,11 @@ void display_status_message() {// 만약 내가 하베스터를 선택한 상태
 	case 'W':
 		gotoxy(name_pos_2_1);
 		printf("웜");
+		break;
+	case 'D':
+	case 'd':
+		gotoxy(name_pos_2_1);
+		printf("숙소");
 		break;
 	}
 	
