@@ -1392,64 +1392,64 @@ void poop(int column, int row) {
 		}
 }
 
-int eat_unit(int row, int column) {//링크드 리스트 노드 삭제
-	node* delnode;// 삭제할 노드 주소 저장//
-	node* prevnode;// 삭제할 이전 노드의 주소 저장//
-	if (head == NULL) {//
-		return;//
-	}//
+int eat_unit(int row, int column) {//링크드 리스트 노드 삭제/
+	node* delnode;// 삭제할 노드 주소 저장///
+	node* prevnode;// 삭제할 이전 노드의 주소 저장///
+	if (head == NULL) {///
+		return;///
+	}///
 
-	if (head->pos.column == column && head->pos.row == row) {//
-		delnode = head;//
-		head = head->next;//
-		if (delnode->is_it_structure_flag == 0) {//
-			return 1;//
-		}//
-		else {//
-			if (delnode->is_it_my_side_flag == 1 && delnode->is_it_structure_flag == 1) {//
-				insert_sys_message(2);//
-				resource.population -= delnode->population;//
-			}//
-			map[1][row][column] = -1;//
-			if (select_unit_address->repr == delnode->repr) {//
-				select_unit_address = &a;//
-			}//
-			free(delnode);//
+	if (head->pos.column == column && head->pos.row == row) {///
+		delnode = head;///
+		head = head->next;///
+		if (delnode->is_it_structure_flag == 0) {///
+			return 1;///
+		}///
+		else {///
+			if (delnode->is_it_my_side_flag == 1 && delnode->is_it_structure_flag == 1) {///
+				insert_sys_message(2);///
+				resource.population -= delnode->population;///
+			}///
+			map[1][row][column] = -1;///
+			if (select_unit_address->repr == delnode->repr) {///
+				select_unit_address = &a;///
+			}///
+			free(delnode);///
 			
 		
 			
 			//// 여기다가 시스템 메시지 조건 내팀 맞음? 으로해서 맞으면 죽었다
-		}//
-		return;//
-	}//
+		}///
+		return;///
+	}///
 
-	prevnode = head;//
-	delnode = head;//
-	while (prevnode->next != NULL) {//
-		delnode = prevnode->next;//
+	prevnode = head;///
+	delnode = head;///
+	while (prevnode->next != NULL) {///
+		delnode = prevnode->next;///
 
-		if (delnode->pos.column == column && delnode->pos.row == row) {//
-			prevnode->next = delnode->next;//
-			if (delnode->is_it_structure_flag == 0) {//
-				return 1;//
-			}//
-			else {//
-				if (delnode->is_it_my_side_flag == 1 && delnode->is_it_structure_flag == 1) {//
-					insert_sys_message(2);//
-					resource.population -= delnode->population;//
-				}//
-				map[1][row][column] = -1;//
-				if (select_unit_address->repr == delnode->repr) {//
-					select_unit_address = &a;//
-				}//
-				free(delnode);//
+		if (delnode->pos.column == column && delnode->pos.row == row) {///
+			prevnode->next = delnode->next;///
+			if (delnode->is_it_structure_flag == 0) {///
+				return 1;///
+			}///
+			else {///
+				if (delnode->is_it_my_side_flag == 1 && delnode->is_it_structure_flag == 1) {///
+					insert_sys_message(2);///
+					resource.population -= delnode->population;///
+				}///
+				map[1][row][column] = -1;///
+				if (select_unit_address->repr == delnode->repr) {///
+					select_unit_address = &a;///
+				}///
+				free(delnode);///
 				
-			}//
-			return;//
-		}//
-		prevnode = delnode;//
-	}//
-}//
+			}///
+			return;///
+		}///
+		prevnode = delnode;///
+	}///
+}///
 
 POSITION total_object_next_position(node* curnode) {//
 	POSITION diff = psub(curnode->dest, curnode->pos);//
